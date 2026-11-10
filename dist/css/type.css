@@ -1,0 +1,11 @@
+/* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
+/* Typographie de titre : suit les variables --sd-font-display / --sd-display-* du thème importé. */
+
+.sd-display {
+  font-family: var(--sd-font-display);
+  font-weight: var(--sd-display-weight);
+  font-stretch: calc(var(--sd-display-stretch) * 1%);
+  font-variation-settings: 'wdth' var(--sd-display-stretch);
+  text-transform: var(--sd-display-transform);
+  letter-spacing: var(--sd-display-tracking);
+}

@@ -23,9 +23,12 @@
   --sd-shadow-sm: 0 1px 2px rgb(60 40 20 / 0.07), 0 1px 1px rgb(60 40 20 / 0.04);
   --sd-shadow-md: 0 8px 18px -6px rgb(60 40 20 / 0.14), 0 2px 5px rgb(60 40 20 / 0.06);
   --sd-shadow-lg: 0 28px 56px -18px rgb(60 40 20 / 0.26), 0 10px 20px -10px rgb(60 40 20 / 0.12);
-  --sd-font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --sd-font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --sd-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --sd-font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --sd-display-weight: 800;
+  --sd-display-stretch: 100;
+  --sd-display-transform: none;
   --sd-display-tracking: -0.02em;
   --sd-text-xs: 0.75rem;
   --sd-text-sm: 0.875rem;
@@ -259,6 +262,11 @@
   --sd-accent-strong: #b3141c;
   --sd-accent-ink: #ffffff;
   --sd-accent-2: #c07a00;
+  --sd-font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --sd-display-weight: 800;
+  --sd-display-stretch: 75;
+  --sd-display-transform: uppercase;
+  --sd-display-tracking: -0.01em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -294,6 +302,10 @@
   --sd-accent-strong: #33478c;
   --sd-accent-ink: #ffffff;
   --sd-accent-2: #b0502b;
+  --sd-font-display: "Newsreader", ui-serif, Georgia, serif;
+  --sd-display-weight: 700;
+  --sd-display-transform: none;
+  --sd-display-tracking: -0.02em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -525,6 +537,8 @@ var SdDesign = (() => {
     alpha: () => alpha,
     currentTheme: () => currentTheme,
     display: () => display,
+    fontsUrl: () => fontsUrl,
+    fontsUrls: () => fontsUrls,
     initReveal: () => initReveal,
     initTheme: () => initTheme,
     initTilt: () => initTilt,
@@ -625,6 +639,23 @@ var SdDesign = (() => {
       toggle,
       destroy: () => buttons.forEach((b) => b.removeEventListener("click", toggle))
     };
+  }
+
+  // src/js/fonts.ts
+  var BRICOLAGE = "Bricolage+Grotesque:opsz,wght@12..96,700..800";
+  var BRICOLAGE_CONDENSED = "Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800";
+  var NEWSREADER = "Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..600";
+  var url = (display2) => `https://fonts.googleapis.com/css2?family=${display2}&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap`;
+  var fontsUrls = {
+    portfolio: url(BRICOLAGE),
+    geogame: url(BRICOLAGE),
+    mma: url(BRICOLAGE_CONDENSED),
+    dailylingua: url(NEWSREADER)
+  };
+  function fontsUrl(theme) {
+    const u = fontsUrls[theme];
+    if (!u) throw new Error(`@sdmm/design: th\xE8me inconnu \xAB ${String(theme)} \xBB (attendu : ${Object.keys(fontsUrls).join(", ")})`);
+    return u;
   }
 
   // src/js/canvas.ts

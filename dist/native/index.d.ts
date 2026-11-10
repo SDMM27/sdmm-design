@@ -22,8 +22,10 @@ export interface NativeTheme {
   name: ThemeName;
   scheme: Scheme;
   colors: ThemeColors;
-  /** Noms de familles expo-font / @expo-google-fonts. */
+  /** Noms de familles expo-font / @expo-google-fonts (display suit la police de titre du thème). */
   font: { display: string; displayHeavy: string; sans: string; sansMedium: string; sansSemibold: string; mono: string };
+  /** Typographie de titre du thème (largeur wdth, casse et interlettrage : à appliquer à la main en natif). */
+  display: { family: string; weight: number; stretch: number; transform: 'none' | 'uppercase' | 'lowercase' | 'capitalize'; tracking: string };
   /** Tailles en px. */
   fontSize: { "xs": number; "sm": number; "base": number; "lg": number; "xl": number; "2xl": number; "3xl": number; "4xl": number; "5xl": number; "6xl": number };
   /** Rayons en px. */
@@ -39,6 +41,9 @@ export interface NativeTheme {
 }
 
 export const themeNames: ThemeName[];
+
+/** URL Google Fonts recommandée pour un produit. */
+export function fontsUrl(name: ThemeName): string;
 
 export function getTheme(name: ThemeName, scheme?: Scheme): NativeTheme;
 

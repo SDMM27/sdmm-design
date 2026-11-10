@@ -1,4 +1,5 @@
 // Adaptateurs par stack : Tailwind 4, Tailwind 3 (preset) et React Native / NativeWind.
+import { fontsUrls } from '../src/js/fonts';
 import { BANNER } from './css';
 import {
   bezier,
@@ -7,6 +8,7 @@ import {
   neutrals,
   radius,
   status,
+  themeDisplay,
   themeNames,
   themeNeutrals,
   themes,
@@ -55,6 +57,7 @@ export function tailwindV4(): string {
 @theme inline {
 ${colors}
   --font-display: var(--sd-font-display);
+  --font-display--font-variation-settings: 'wdth' var(--sd-display-stretch);
   --font-sans: var(--sd-font-sans);
   --font-mono: var(--sd-font-mono);
   --radius-card: var(--sd-radius-card);
@@ -106,7 +109,8 @@ module.exports = {
 ${colorEntries}
       },
       fontFamily: {
-        display: ['var(--sd-font-display)'],
+        // largeur (axe wdth) du thème ; poids, casse et interlettrage : classe .sd-display.
+        display: ['var(--sd-font-display)', { fontVariationSettings: "'wdth' var(--sd-display-stretch)" }],
         sans: ['var(--sd-font-sans)'],
         mono: ['var(--sd-font-mono)'],
       },
@@ -154,6 +158,23 @@ function resolvedColors(name: ThemeName, scheme: Scheme, key: (k: string) => str
   return out;
 }
 
+const NATIVE_WEIGHTS: Record<number, string> = {
+  400: 'Regular',
+  500: 'Medium',
+  600: 'SemiBold',
+  700: 'Bold',
+  800: 'ExtraBold',
+};
+
+/** Familles expo-font (@expo-google-fonts) d'un thème : la police de titre suit `display` quand le thème la redéfinit. */
+function nativeFonts(name: ThemeName): Record<string, string> {
+  const d = themes[name].display;
+  if (!d) return { ...font.native };
+  const family = /"([^"]+)"/.exec(d.family)?.[1]?.replace(/\s+/g, '') ?? '';
+  const w = NATIVE_WEIGHTS[d.weight];
+  return { ...font.native, display: `${family}_${d.weight}${w ?? ''}`, displayHeavy: `${family}_${d.weight}${w ?? ''}` };
+}
+
 export function nativeJs(): string {
   const colors = Object.fromEntries(
     themeNames.map((n) => [n, { light: resolvedColors(n, 'light'), dark: resolvedColors(n, 'dark') }]),
@@ -165,7 +186,9 @@ export function nativeJs(): string {
   const data = {
     colors,
     tw,
-    font: font.native,
+    fonts: Object.fromEntries(themeNames.map((n) => [n, nativeFonts(n)])),
+    display: Object.fromEntries(themeNames.map((n) => [n, themeDisplay(n)])),
+    fontsUrls,
     fontSize: Object.fromEntries(Object.entries(font.scale).map(([k, v]) => [k, v.size * 16])),
     radius: Object.fromEntries(Object.entries(radius).map(([k, v]) => [k, px(v)])),
     motion: {
@@ -197,7 +220,8 @@ function getTheme(name, scheme) {
     name,
     scheme: s,
     colors: data.colors[name][s],
-    font: data.font,
+    font: data.fonts[name],
+    display: data.display[name],
     fontSize: data.fontSize,
     radius: data.radius,
     motion: data.motion,
@@ -218,9 +242,9 @@ function nativewindPreset(name) {
           dark: data.tw[name].dark,
         },
         fontFamily: {
-          display: [data.font.display],
-          sans: [data.font.sans],
-          mono: [data.font.mono],
+          display: [data.fonts[name].display],
+          sans: [data.fonts[name].sans],
+          mono: [data.fonts[name].mono],
         },
         borderRadius: { card: data.radius.card + 'px' },
         transitionDuration: {
@@ -234,7 +258,13 @@ function nativewindPreset(name) {
   };
 }
 
-module.exports = { getTheme, nativewindPreset, themeNames };
+/** URL Google Fonts recommandée pour un produit (utile pour le web ; en natif, voir font.* et @expo-google-fonts). */
+function fontsUrl(name) {
+  assertTheme(name);
+  return data.fontsUrls[name];
+}
+
+module.exports = { getTheme, nativewindPreset, fontsUrl, themeNames };
 `;
 }
 
@@ -257,8 +287,10 @@ export interface NativeTheme {
   name: ThemeName;
   scheme: Scheme;
   colors: ThemeColors;
-  /** Noms de familles expo-font / @expo-google-fonts. */
+  /** Noms de familles expo-font / @expo-google-fonts (display suit la police de titre du thème). */
   font: { ${fontKeys.map((k) => `${k}: string`).join('; ')} };
+  /** Typographie de titre du thème (largeur wdth, casse et interlettrage : à appliquer à la main en natif). */
+  display: { family: string; weight: number; stretch: number; transform: 'none' | 'uppercase' | 'lowercase' | 'capitalize'; tracking: string };
   /** Tailles en px. */
   fontSize: { ${scaleKeys.map((k) => `${JSON.stringify(k)}: number`).join('; ')} };
   /** Rayons en px. */
@@ -274,6 +306,9 @@ export interface NativeTheme {
 }
 
 export const themeNames: ThemeName[];
+
+/** URL Google Fonts recommandée pour un produit. */
+export function fontsUrl(name: ThemeName): string;
 
 export function getTheme(name: ThemeName, scheme?: Scheme): NativeTheme;
 

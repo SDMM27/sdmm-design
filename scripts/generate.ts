@@ -5,7 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
 import { nativeDts, nativeJs, tailwindPreset, tailwindPresetDts, tailwindV4 } from './adapters';
-import { allCss, baseCss, motionCss, themeCss } from './css';
+import { allCss, baseCss, motionCss, themeCss, typeCss } from './css';
 import { showcaseHtml } from './showcase';
 import { themeNames } from '../src/tokens';
 
@@ -34,7 +34,7 @@ function compileJs(): Map<string, string> {
   host.writeFile = (file, text) => {
     out.set(slash(path.relative(ROOT, file)), text);
   };
-  const files = ['index', 'reveal', 'tilt', 'theme', 'canvas'].map((n) => path.join(JS_SRC, `${n}.ts`));
+  const files = ['index', 'reveal', 'tilt', 'theme', 'canvas', 'fonts'].map((n) => path.join(JS_SRC, `${n}.ts`));
   const program = ts.createProgram(files, options, host);
   const result = program.emit();
   const errors = [...ts.getPreEmitDiagnostics(program), ...result.diagnostics].filter(
@@ -63,6 +63,7 @@ function bundleForShowcase(): string {
 export function generate(): Map<string, string> {
   const files = new Map<string, string>();
   files.set('dist/css/base.css', baseCss());
+  files.set('dist/css/type.css', typeCss());
   files.set('dist/css/motion.css', motionCss());
   for (const name of themeNames) {
     files.set(`dist/css/themes/${name}.css`, themeCss(name));

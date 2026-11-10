@@ -1,5 +1,5 @@
 /* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
-/* Thème « DailyLingua » : accents et neutres, à combiner avec base.css (à importer après). */
+/* Thème « DailyLingua » : accents, neutres et typo de titre, à combiner avec base.css (à importer après). */
 
 :root {
   --sd-bg: #f5f1e8;
@@ -12,6 +12,10 @@
   --sd-accent-strong: #33478c;
   --sd-accent-ink: #ffffff;
   --sd-accent-2: #b0502b;
+  --sd-font-display: "Newsreader", ui-serif, Georgia, serif;
+  --sd-display-weight: 700;
+  --sd-display-transform: none;
+  --sd-display-tracking: -0.02em;
 }
 
 @media (prefers-color-scheme: dark) {

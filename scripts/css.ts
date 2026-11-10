@@ -1,5 +1,6 @@
 // Génération des feuilles CSS (base, thèmes, motion) à partir de src/tokens.ts.
 import {
+  baseDisplay,
   bezier,
   font,
   motion as motionTokens,
@@ -9,6 +10,7 @@ import {
   status,
   themes,
   themeNeutrals,
+  type DisplayType,
   type Pair,
   type ThemeName,
 } from '../src/tokens';
@@ -37,6 +39,18 @@ export function schemeBlocks(selector: string, light: Decls, dark: Decls): strin
 const pairDecls = (entries: Record<string, Pair>, scheme: 'light' | 'dark', prefix = '--sd-'): Decls =>
   Object.fromEntries(Object.entries(entries).map(([k, v]) => [`${prefix}${k}`, v[scheme]]));
 
+/** Variables de typo de titre ; seuls les champs fournis sont émis (une surcharge de thème peut être partielle). */
+const displayDecls = (d: Partial<DisplayType>): Decls =>
+  Object.fromEntries(
+    Object.entries({
+      '--sd-font-display': d.family,
+      '--sd-display-weight': d.weight,
+      '--sd-display-stretch': d.stretch,
+      '--sd-display-transform': d.transform,
+      '--sd-display-tracking': d.tracking,
+    }).flatMap(([k, v]) => (v === undefined ? [] : [[k, String(v)]])),
+  );
+
 const cssEasing = Object.fromEntries(
   Object.entries(motionTokens.easing).map(([k, v]) => [k === 'inOut' ? 'in-out' : k, bezier(v)]),
 );
@@ -44,10 +58,9 @@ const cssEasing = Object.fromEntries(
 export function baseVars(): { light: Decls; dark: Decls } {
   const colors = { ...neutrals, ...status } as Record<string, Pair>;
   const fixed: Decls = {
-    '--sd-font-display': font.family.display,
     '--sd-font-sans': font.family.sans,
     '--sd-font-mono': font.family.mono,
-    '--sd-display-tracking': font.display.letterSpacing,
+    ...displayDecls(baseDisplay),
     ...Object.fromEntries(
       Object.entries(font.scale).map(([k, v]) => [`--sd-text-${k}`, `${v.size}rem`]),
     ),
@@ -110,6 +123,8 @@ export function themeVars(name: ThemeName, scheme: 'light' | 'dark'): Decls {
     '--sd-accent-strong': t['accent-strong'][scheme],
     '--sd-accent-ink': t['accent-ink'][scheme],
     '--sd-accent-2': t['accent-2'][scheme],
+    // Typo de titre : indépendante du scheme, donc posée une seule fois (bloc clair = sélecteur nu).
+    ...(scheme === 'light' ? displayDecls(t.display ?? {}) : {}),
   };
 }
 
@@ -119,7 +134,7 @@ export function themeBlocks(name: ThemeName, selector = ':root'): string {
 }
 
 export function themeCss(name: ThemeName): string {
-  return `${BANNER}/* Thème « ${themes[name].label} » : accents${themes[name].neutrals ? ' et neutres' : ''}, à combiner avec base.css (à importer après). */
+  return `${BANNER}/* Thème « ${themes[name].label} » : accents${themes[name].neutrals ? ', neutres' : ''}${themes[name].display ? ' et typo de titre' : ''}, à combiner avec base.css (à importer après). */
 
 ${themeBlocks(name)}
 `;
@@ -212,13 +227,29 @@ export function motionCss(): string {
 `;
 }
 
+export function typeCss(): string {
+  return `${BANNER}/* Typographie de titre : suit les variables --sd-font-display / --sd-display-* du thème importé. */
+
+.sd-display {
+  font-family: var(--sd-font-display);
+  font-weight: var(--sd-display-weight);
+  font-stretch: calc(var(--sd-display-stretch) * 1%);
+  font-variation-settings: 'wdth' var(--sd-display-stretch);
+  text-transform: var(--sd-display-transform);
+  letter-spacing: var(--sd-display-tracking);
+}
+`;
+}
+
 export function allCss(name: ThemeName): string {
   const strip = (css: string) => css.replace(BANNER, '').trim();
-  return `${BANNER}/* base + thème « ${themes[name].label} » + motion en un seul import. */
+  return `${BANNER}/* base + thème « ${themes[name].label} » + type + motion en un seul import. */
 
 ${strip(baseCss())}
 
 ${strip(themeCss(name)).replace(/^\/\*[^\n]*\*\/\n\n/, '')}
+
+${strip(typeCss()).replace(/^\/\*[^\n]*\*\/\n\n/, '')}
 
 ${strip(motionCss()).replace(/^\/\*[^\n]*\*\/\n\n/, '')}
 `;

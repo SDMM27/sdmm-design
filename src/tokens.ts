@@ -1,6 +1,8 @@
 // SOURCE UNIQUE du design system. Tout le contenu de dist/ et du showcase est généré depuis ce fichier
 // (`npm run build`). Ne jamais éditer dist/ à la main.
 
+import { fontsUrls } from './js/fonts';
+
 export type Scheme = 'light' | 'dark';
 export type ThemeName = 'portfolio' | 'geogame' | 'mma' | 'dailylingua';
 
@@ -54,6 +56,17 @@ export const status: Status = {
 // Accents : seul élément propre à chaque produit.
 // ---------------------------------------------------------------------------
 
+export interface DisplayType {
+  /** Pile CSS complète, ex. `"Newsreader", ui-serif, Georgia, serif`. */
+  family: string;
+  weight: number;
+  /** Largeur en % (axe wdth, 100 = normal) : 75 = condensé. */
+  stretch?: number;
+  transform?: 'none' | 'uppercase' | 'lowercase' | 'capitalize';
+  /** letter-spacing, en em. */
+  tracking?: string;
+}
+
 export interface ThemeTokens {
   label: string;
   accent: Pair;
@@ -64,6 +77,8 @@ export interface ThemeTokens {
   'accent-2': Pair;
   /** Neutres redéfinis par ce thème (tout ce qui est absent reste celui de la base). */
   neutrals?: NeutralOverrides;
+  /** Typographie de titre propre au produit (le reste vient de la base : `baseDisplay`). */
+  display?: DisplayType;
   /**
    * Taille de texte autorisée sur un fond accent : 'normal' impose accent-ink/accent >= 4.5,
    * 'large' (texte >= 18.66px gras ou >= 24px, icônes) se contente de >= 3.
@@ -109,6 +124,14 @@ export const themes: Record<ThemeName, ThemeTokens> = {
       surface: { dark: '#171513' },
       'surface-2': { light: '#e6e0d3', dark: '#26221e' },
     },
+    // Bricolage Grotesque condensé (axe wdth 75), capitales.
+    display: {
+      family: '"Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif',
+      weight: 800,
+      stretch: 75,
+      transform: 'uppercase',
+      tracking: '-0.01em',
+    },
     accentInkText: { light: 'normal', dark: 'normal' },
   },
   dailylingua: {
@@ -126,6 +149,8 @@ export const themes: Record<ThemeName, ThemeTokens> = {
       muted: { light: '#6b655c', dark: '#a39b8e' },
       line: { light: '#d9d2c4', dark: '#34302a' },
     },
+    // Serif éditorial.
+    display: { family: '"Newsreader", ui-serif, Georgia, serif', weight: 700, transform: 'none', tracking: '-0.02em' },
     accentInkText: { light: 'normal', dark: 'normal' },
   },
 };
@@ -159,8 +184,8 @@ export const font = {
     sansSemibold: 'Inter_600SemiBold',
     mono: 'JetBrainsMono_500Medium',
   },
-  googleFontsUrl:
-    'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap',
+  /** URL Google Fonts de la base (portfolio, geogame) ; pour chaque produit : `fontsUrl(theme)`. */
+  googleFontsUrl: fontsUrls.portfolio,
   display: { weights: [700, 800], letterSpacing: '-0.02em' },
   /** Échelle de tailles en rem (1rem = 16px) avec interligne. */
   scale: {
@@ -176,6 +201,20 @@ export const font = {
     '6xl': { size: 3.75, line: 1 },
   },
 } as const;
+
+/** Typographie de titre de la base (portfolio, geogame) ; un thème peut la redéfinir via `display`. */
+export const baseDisplay: Required<DisplayType> = {
+  family: font.family.display,
+  weight: 800,
+  stretch: 100,
+  transform: 'none',
+  tracking: font.display.letterSpacing,
+};
+
+/** Typographie de titre EFFECTIVE d'un thème : base + surcharges du thème. */
+export function themeDisplay(name: ThemeName): Required<DisplayType> {
+  return { ...baseDisplay, ...themes[name].display };
+}
 
 export const radius = {
   sm: '0.5rem',

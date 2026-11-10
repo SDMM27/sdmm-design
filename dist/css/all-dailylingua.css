@@ -1,5 +1,5 @@
 /* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
-/* base + thème « DailyLingua » + motion en un seul import. */
+/* base + thème « DailyLingua » + type + motion en un seul import. */
 
 :root {
   --sd-bg: #f6f3ec;
@@ -14,9 +14,12 @@
   --sd-shadow-sm: 0 1px 2px rgb(60 40 20 / 0.07), 0 1px 1px rgb(60 40 20 / 0.04);
   --sd-shadow-md: 0 8px 18px -6px rgb(60 40 20 / 0.14), 0 2px 5px rgb(60 40 20 / 0.06);
   --sd-shadow-lg: 0 28px 56px -18px rgb(60 40 20 / 0.26), 0 10px 20px -10px rgb(60 40 20 / 0.12);
-  --sd-font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
   --sd-font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --sd-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --sd-font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --sd-display-weight: 800;
+  --sd-display-stretch: 100;
+  --sd-display-transform: none;
   --sd-display-tracking: -0.02em;
   --sd-text-xs: 0.75rem;
   --sd-text-sm: 0.875rem;
@@ -106,6 +109,10 @@
   --sd-accent-strong: #33478c;
   --sd-accent-ink: #ffffff;
   --sd-accent-2: #b0502b;
+  --sd-font-display: "Newsreader", ui-serif, Georgia, serif;
+  --sd-display-weight: 700;
+  --sd-display-transform: none;
+  --sd-display-tracking: -0.02em;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -134,6 +141,15 @@
   --sd-accent-strong: #b3c0ff;
   --sd-accent-ink: #0d1330;
   --sd-accent-2: #e2825c;
+}
+
+.sd-display {
+  font-family: var(--sd-font-display);
+  font-weight: var(--sd-display-weight);
+  font-stretch: calc(var(--sd-display-stretch) * 1%);
+  font-variation-settings: 'wdth' var(--sd-display-stretch);
+  text-transform: var(--sd-display-transform);
+  letter-spacing: var(--sd-display-tracking);
 }
 
 /* Apparition au scroll (initReveal) ; --i = rang dans la série pour le décalage. */

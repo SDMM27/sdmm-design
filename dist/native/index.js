@@ -262,13 +262,75 @@ const data = {
       }
     }
   },
-  "font": {
-    "display": "BricolageGrotesque_700Bold",
-    "displayHeavy": "BricolageGrotesque_800ExtraBold",
-    "sans": "Inter_400Regular",
-    "sansMedium": "Inter_500Medium",
-    "sansSemibold": "Inter_600SemiBold",
-    "mono": "JetBrainsMono_500Medium"
+  "fonts": {
+    "portfolio": {
+      "display": "BricolageGrotesque_700Bold",
+      "displayHeavy": "BricolageGrotesque_800ExtraBold",
+      "sans": "Inter_400Regular",
+      "sansMedium": "Inter_500Medium",
+      "sansSemibold": "Inter_600SemiBold",
+      "mono": "JetBrainsMono_500Medium"
+    },
+    "geogame": {
+      "display": "BricolageGrotesque_700Bold",
+      "displayHeavy": "BricolageGrotesque_800ExtraBold",
+      "sans": "Inter_400Regular",
+      "sansMedium": "Inter_500Medium",
+      "sansSemibold": "Inter_600SemiBold",
+      "mono": "JetBrainsMono_500Medium"
+    },
+    "mma": {
+      "display": "BricolageGrotesque_800ExtraBold",
+      "displayHeavy": "BricolageGrotesque_800ExtraBold",
+      "sans": "Inter_400Regular",
+      "sansMedium": "Inter_500Medium",
+      "sansSemibold": "Inter_600SemiBold",
+      "mono": "JetBrainsMono_500Medium"
+    },
+    "dailylingua": {
+      "display": "Newsreader_700Bold",
+      "displayHeavy": "Newsreader_700Bold",
+      "sans": "Inter_400Regular",
+      "sansMedium": "Inter_500Medium",
+      "sansSemibold": "Inter_600SemiBold",
+      "mono": "JetBrainsMono_500Medium"
+    }
+  },
+  "display": {
+    "portfolio": {
+      "family": "\"Bricolage Grotesque\", ui-sans-serif, system-ui, sans-serif",
+      "weight": 800,
+      "stretch": 100,
+      "transform": "none",
+      "tracking": "-0.02em"
+    },
+    "geogame": {
+      "family": "\"Bricolage Grotesque\", ui-sans-serif, system-ui, sans-serif",
+      "weight": 800,
+      "stretch": 100,
+      "transform": "none",
+      "tracking": "-0.02em"
+    },
+    "mma": {
+      "family": "\"Bricolage Grotesque\", ui-sans-serif, system-ui, sans-serif",
+      "weight": 800,
+      "stretch": 75,
+      "transform": "uppercase",
+      "tracking": "-0.01em"
+    },
+    "dailylingua": {
+      "family": "\"Newsreader\", ui-serif, Georgia, serif",
+      "weight": 700,
+      "stretch": 100,
+      "transform": "none",
+      "tracking": "-0.02em"
+    }
+  },
+  "fontsUrls": {
+    "portfolio": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+    "geogame": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+    "mma": "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+    "dailylingua": "https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
   },
   "fontSize": {
     "xs": 12,
@@ -334,7 +396,8 @@ function getTheme(name, scheme) {
     name,
     scheme: s,
     colors: data.colors[name][s],
-    font: data.font,
+    font: data.fonts[name],
+    display: data.display[name],
     fontSize: data.fontSize,
     radius: data.radius,
     motion: data.motion,
@@ -355,9 +418,9 @@ function nativewindPreset(name) {
           dark: data.tw[name].dark,
         },
         fontFamily: {
-          display: [data.font.display],
-          sans: [data.font.sans],
-          mono: [data.font.mono],
+          display: [data.fonts[name].display],
+          sans: [data.fonts[name].sans],
+          mono: [data.fonts[name].mono],
         },
         borderRadius: { card: data.radius.card + 'px' },
         transitionDuration: {
@@ -371,4 +434,10 @@ function nativewindPreset(name) {
   };
 }
 
-module.exports = { getTheme, nativewindPreset, themeNames };
+/** URL Google Fonts recommandée pour un produit (utile pour le web ; en natif, voir font.* et @expo-google-fonts). */
+function fontsUrl(name) {
+  assertTheme(name);
+  return data.fontsUrls[name];
+}
+
+module.exports = { getTheme, nativewindPreset, fontsUrl, themeNames };

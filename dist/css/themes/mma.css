@@ -1,5 +1,5 @@
 /* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
-/* Thème « MMA Universe » : accents et neutres, à combiner avec base.css (à importer après). */
+/* Thème « MMA Universe » : accents, neutres et typo de titre, à combiner avec base.css (à importer après). */
 
 :root {
   --sd-surface-2: #e6e0d3;
@@ -7,6 +7,11 @@
   --sd-accent-strong: #b3141c;
   --sd-accent-ink: #ffffff;
   --sd-accent-2: #c07a00;
+  --sd-font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --sd-display-weight: 800;
+  --sd-display-stretch: 75;
+  --sd-display-transform: uppercase;
+  --sd-display-tracking: -0.01em;
 }
 
 @media (prefers-color-scheme: dark) {

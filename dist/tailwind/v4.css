@@ -28,6 +28,7 @@
   --color-wip: var(--sd-wip);
   --color-danger: var(--sd-danger);
   --font-display: var(--sd-font-display);
+  --font-display--font-variation-settings: 'wdth' var(--sd-display-stretch);
   --font-sans: var(--sd-font-sans);
   --font-mono: var(--sd-font-mono);
   --radius-card: var(--sd-radius-card);

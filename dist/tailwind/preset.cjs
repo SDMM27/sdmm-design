@@ -35,7 +35,8 @@ module.exports = {
     "danger": v("danger"),
       },
       fontFamily: {
-        display: ['var(--sd-font-display)'],
+        // largeur (axe wdth) du thème ; poids, casse et interlettrage : classe .sd-display.
+        display: ['var(--sd-font-display)', { fontVariationSettings: "'wdth' var(--sd-display-stretch)" }],
         sans: ['var(--sd-font-sans)'],
         mono: ['var(--sd-font-mono)'],
       },
