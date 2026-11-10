@@ -1,5 +1,6 @@
 export { initReveal } from './reveal.js';
 export type { RevealOptions } from './reveal.js';
+export { initCountUp } from './countup.js';
 export { initTilt } from './tilt.js';
 export type { TiltOptions } from './tilt.js';
 export { initTheme, currentTheme, themeScript, DEFAULT_STORAGE_KEY } from './theme.js';

@@ -34,7 +34,7 @@ function compileJs(): Map<string, string> {
   host.writeFile = (file, text) => {
     out.set(slash(path.relative(ROOT, file)), text);
   };
-  const files = ['index', 'reveal', 'tilt', 'theme', 'canvas', 'fonts'].map((n) => path.join(JS_SRC, `${n}.ts`));
+  const files = ['index', 'reveal', 'tilt', 'theme', 'canvas', 'fonts', 'countup'].map((n) => path.join(JS_SRC, `${n}.ts`));
   const program = ts.createProgram(files, options, host);
   const result = program.emit();
   const errors = [...ts.getPreEmitDiagnostics(program), ...result.diagnostics].filter(

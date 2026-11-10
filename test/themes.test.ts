@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module';
 import { describe, expect, it } from 'vitest';
-import { themeCss, typeCss } from '../scripts/css';
+import { motionCss, themeCss, typeCss } from '../scripts/css';
 import { fontsUrl } from '../src/js/fonts';
 import { neutrals, themeDisplay, themeNames, themeNeutrals } from '../src/tokens';
 
@@ -61,5 +61,21 @@ describe('typographie de titre', () => {
     expect(native.getTheme('dailylingua', 'light').font.display).toBe('Newsreader_700Bold');
     expect(native.getTheme('mma', 'light').font.display).toBe('BricolageGrotesque_800ExtraBold');
     expect(native.getTheme('geogame', 'light').font.display).toBe('BricolageGrotesque_700Bold');
+  });
+});
+
+describe('motion signature', () => {
+  const css = motionCss();
+  const reduced = css.slice(css.indexOf('@media (prefers-reduced-motion: reduce)'));
+
+  it.each(['sd-marquee', 'sd-ink', 'sd-punch', 'sd-stamp', 'sd-mark', 'sd-route'])('.%s existe et est coupée sous reduced-motion', (c) => {
+    expect(css).toContain(`.${c} {`);
+    expect(reduced).toContain(`.${c}`);
+  });
+
+  it('variables de personnalisation', () => {
+    expect(css).toContain('--sd-marquee-duration');
+    expect(css).toContain('--sd-stamp-rotate');
+    expect(css).toContain('--sd-mark');
   });
 });

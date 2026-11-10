@@ -1,5 +1,5 @@
 /* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
-/* Utilitaires d'animation. Les .sd-reveal ne s'activent que sous .js (posé par themeScript / votre propre script). */
+/* Utilitaires d'animation (dont la motion « signature »). Les .sd-reveal ne s'activent que sous .js (posé par themeScript / votre propre script). */
 
 /* Apparition au scroll (initReveal) ; --i = rang dans la série pour le décalage. */
 .js .sd-reveal {
@@ -75,7 +75,80 @@
   transform: translate(-50%, 0);
 }
 
+/* ---- Motion « signature » (une seule par écran) ---- */
+
+/*
+ * Défilement horizontal infini. Structure : un parent overflow:hidden, un .sd-marquee (la piste) contenant
+ * le contenu DEUX fois (la 2e copie en aria-hidden). Durée : --sd-marquee-duration (défaut 30s).
+ */
+@keyframes sd-marquee {
+  to { transform: translateX(-50%); }
+}
+.sd-marquee {
+  display: flex;
+  width: max-content;
+  animation: sd-marquee var(--sd-marquee-duration, 30s) linear infinite;
+}
+
+/* Révélation gauche -> droite par clip-path (à la création ; retirer puis remettre la classe pour rejouer). */
+@keyframes sd-ink {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.sd-ink {
+  animation: sd-ink 0.9s var(--sd-ease-in-out) both;
+  animation-delay: calc(var(--i, 0) * var(--sd-stagger));
+}
+
+/* Entrée avec rebond « spring » (la courbe dépasse 1 : léger overshoot). */
+@keyframes sd-punch {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+.sd-punch {
+  animation: sd-punch var(--sd-dur-slow) var(--sd-ease-spring) both;
+  animation-delay: calc(var(--i, 0) * var(--sd-stagger));
+}
+
+/* Tampon : scale 1.8 -> 1, incliné de --sd-stamp-rotate (défaut -8deg). */
+@keyframes sd-stamp {
+  0% { opacity: 0; transform: scale(1.8) rotate(var(--sd-stamp-rotate, -8deg)); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: scale(1) rotate(var(--sd-stamp-rotate, -8deg)); }
+}
+.sd-stamp {
+  display: inline-block;
+  animation: sd-stamp 0.45s cubic-bezier(0.5, 0, 0.2, 1.25) both;
+  animation-delay: calc(var(--i, 0) * var(--sd-stagger));
+}
+
+/* Surlignage marqueur animé (background-size) ; couleur via --sd-mark. */
+@keyframes sd-mark {
+  to { background-size: 100% 0.5em; }
+}
+.sd-mark {
+  --_mark: var(--sd-mark, color-mix(in srgb, var(--sd-accent-2) 42%, transparent));
+  background: linear-gradient(var(--_mark), var(--_mark)) no-repeat 0 90% / 0% 0.5em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  animation: sd-mark 0.8s var(--sd-ease-out) 0.25s forwards;
+}
+
+/* Pointillés SVG qui défilent : à poser sur un <path> / <line> (stroke défini par ailleurs). */
+@keyframes sd-route {
+  to { stroke-dashoffset: -14; }
+}
+.sd-route {
+  stroke-dasharray: 6 8;
+  animation: sd-route 0.9s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .sd-marquee { animation: none; width: auto; flex-wrap: wrap; }
+  .sd-marquee > [aria-hidden="true"] { display: none; }
+  .sd-ink, .sd-punch, .sd-stamp, .sd-route { animation: none; }
+  .sd-stamp { transform: rotate(var(--sd-stamp-rotate, -8deg)); }
+  .sd-mark { animation: none; background-size: 100% 0.5em; }
   .js .sd-reveal { opacity: 1; transform: none; transition: none; }
   .sd-tilt { transform: none; transition: none; will-change: auto; }
   .sd-spring:hover, .sd-spring:active { transform: none; }
