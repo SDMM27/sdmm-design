@@ -1,7 +1,18 @@
 // Génère showcase/index.html : page autonome (CSS et JS inlinés, seule la police vient de Google Fonts).
-import { baseCss, motionCss, themeBlocks, BANNER } from './css';
+import { baseCss, motionCss, themeBlocks, typeCss, BANNER } from './css';
+import { fontsUrl } from '../src/js/fonts';
 import { themeScript } from '../src/js/theme';
-import { font, neutrals, radius, shadow, status, themeNames, themes } from '../src/tokens';
+import { font, neutrals, radius, shadow, status, themeDisplay, themeNames, themes } from '../src/tokens';
+
+// Toutes les polices de titre à la fois (le showcase bascule d'un produit à l'autre) : Bricolage avec l'axe wdth + Newsreader.
+const showcaseFontsUrl = fontsUrl('mma').replace(
+  '&family=Inter',
+  '&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..600&family=Inter',
+);
+
+// Mêmes déclarations que .sd-display (type.css), pour les titres et exemples du showcase.
+const displayProps =
+  "font-family: var(--sd-font-display); font-weight: var(--sd-display-weight); font-stretch: calc(var(--sd-display-stretch) * 1%); font-variation-settings: 'wdth' var(--sd-display-stretch); text-transform: var(--sd-display-transform); letter-spacing: var(--sd-display-tracking);";
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
@@ -12,7 +23,7 @@ const showcaseCss = `
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--sd-bg); color: var(--sd-ink); font-family: var(--sd-font-sans); -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
 body { margin: 0; background: var(--sd-bg); overflow-x: hidden; line-height: 1.6; }
-h1, h2, h3 { font-family: var(--sd-font-display); font-weight: 800; letter-spacing: var(--sd-display-tracking); line-height: 1.1; margin: 0; }
+h1, h2, h3 { ${displayProps} line-height: 1.1; margin: 0; }
 p { margin: 0; }
 code { font-family: var(--sd-font-mono); font-size: 0.75rem; color: var(--sd-muted); overflow-wrap: anywhere; }
 .wrap { max-width: 64rem; margin: 0 auto; padding: 0 1rem; }
@@ -36,7 +47,7 @@ h3 { font-size: 1.125rem; margin: 1.5rem 0 0.75rem; }
 .chip-color { height: 3.5rem; border-radius: var(--sd-radius-md); border: 1px solid var(--sd-line); }
 .type-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--sd-line); }
 .type-row code { min-width: 6.5rem; }
-.type-row .s { font-family: var(--sd-font-display); font-weight: 800; letter-spacing: var(--sd-display-tracking); }
+.type-row .s { ${displayProps} }
 .fonts { display: grid; gap: 0.75rem; }
 .fonts div { background: var(--sd-surface); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-md); padding: 0.75rem 1rem; }
 .box { background: var(--sd-surface); border: 1px solid var(--sd-line); height: 5rem; display: grid; place-items: center; font: 500 0.75rem var(--sd-font-mono); color: var(--sd-muted); }
@@ -69,6 +80,23 @@ input[type="text"]:focus { border-color: var(--sd-accent); }
 .spring-ball.on { transform: translateX(var(--dx, 8rem)); }
 .skel { height: 0.9rem; border-radius: var(--sd-radius-sm); margin-bottom: 0.5rem; }
 .canvas-box { height: 8.5rem; border-radius: var(--sd-radius-md); overflow: hidden; background: var(--sd-surface-2); }
+header.hero h1 { overflow-wrap: anywhere; }
+.titles { display: grid; gap: 0.875rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+.titles .panel { min-width: 0; overflow-wrap: anywhere; }
+.titles .panel > code { display: block; margin-bottom: 0.6rem; }
+.titles .t1 { font-size: 2.25rem; line-height: 1.05; margin: 0 0 0.5rem; }
+.titles .t2 { font-size: 1.5rem; line-height: 1.15; margin: 0 0 0.4rem; }
+.titles .t3 { font-size: 1.125rem; line-height: 1.25; margin: 0; }
+.marquee-wrap { overflow: hidden; border-block: 1px solid var(--sd-line); padding: 0.6rem 0; margin-bottom: 0.9rem; }
+.marquee-wrap .sd-marquee > div { display: flex; gap: 1.5rem; padding-right: 1.5rem; flex: none; white-space: nowrap; font: 600 0.9375rem var(--sd-font-mono); }
+.sig-demo { min-height: 4rem; display: flex; flex-wrap: wrap; align-items: center; margin-bottom: 0.9rem; }
+.stamp { font: 800 1.25rem var(--sd-font-display); text-transform: uppercase; color: var(--sd-danger); border: 3px solid var(--sd-danger); border-radius: var(--sd-radius-sm); padding: 0.15rem 0.7rem; --sd-stamp-rotate: -7deg; }
+.punch-chip { background: var(--sd-accent); color: var(--sd-accent-ink); border-radius: var(--sd-radius-pill); padding: 0.4rem 1rem; font: 700 1rem var(--sd-font-sans); }
+.ink-text { display: inline-block; font-size: 1.5rem; ${displayProps} }
+.route-svg { width: 100%; height: 4rem; margin-bottom: 0.9rem; }
+.route-svg path { fill: none; stroke: var(--sd-accent); stroke-width: 3; stroke-linecap: round; }
+.route-svg circle { fill: var(--sd-accent-2); }
+.count { font: 800 2.25rem var(--sd-font-display); color: var(--sd-accent-strong); font-variant-numeric: tabular-nums; }
 footer { padding: 2rem 0 4rem; color: var(--sd-muted); font-size: 0.875rem; }
 `;
 
@@ -99,6 +127,16 @@ const showcaseScript = `
   paintValues();
   SdDesign.initReveal();
   SdDesign.initTilt();
+  SdDesign.initCountUp();
+
+  // Rejouer une animation d'entrée : remplace le nœud par un clone pour relancer l'animation CSS.
+  $$('[data-replay]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var el = document.getElementById(b.dataset.replay);
+      el.parentNode.replaceChild(el.cloneNode(true), el);
+    });
+  });
+  $('#count-btn').addEventListener('click', function () { SdDesign.initCountUp('#count-demo [data-count-to]'); });
 
   $$('.chip').forEach(function (c) { c.addEventListener('click', function () { c.setAttribute('aria-pressed', String(c.getAttribute('aria-pressed') !== 'true')); }); });
 
@@ -154,6 +192,22 @@ export function showcaseHtml(libJs: string): string {
   const themeCssAll = themeNames.map((n) => themeBlocks(n, `:root[data-product="${n}"]`)).join('\n\n');
   const strip = (css: string) => css.replace(BANNER, '').trim();
 
+  // Aperçu des titres : chaque carte force la police de titre de SON produit, quel que soit le produit courant.
+  const previewCss = themeNames
+    .map((n) => {
+      const d = themeDisplay(n);
+      return `.pv-${n} { --sd-font-display: ${d.family}; --sd-display-weight: ${d.weight}; --sd-display-stretch: ${d.stretch}; --sd-display-transform: ${d.transform}; --sd-display-tracking: ${d.tracking}; }`;
+    })
+    .join('\n');
+  const titlePanels = themeNames
+    .map((n) => {
+      const d = themeDisplay(n);
+      const name = d.family.split(',')[0]!.replace(/"/g, '');
+      const spec = [name, d.weight, d.stretch !== 100 && `wdth ${d.stretch}`, d.transform !== 'none' && d.transform, d.tracking].filter(Boolean).join(' · ');
+      return `<div class="panel pv-${n}"><code>${themes[n].label} : ${esc(spec)}</code><p class="sd-display t1">Géographie du monde</p><p class="sd-display t2">Le combat de la nuit</p><p class="sd-display t3">Un titre de section, Aa 0123</p></div>`;
+    })
+    .join('');
+
   const neutralSwatches = Object.keys(neutrals).map((k) => swatch(`--sd-${k}`)).join('');
   const statusSwatches = Object.keys(status).map((k) => swatch(`--sd-${k}`)).join('');
   const accentSwatches = ['accent', 'accent-strong', 'accent-ink', 'accent-2'].map((k) => swatch(`--sd-${k}`)).join('');
@@ -180,14 +234,18 @@ export function showcaseHtml(libJs: string): string {
 <script>${themeScript}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="${esc(font.googleFontsUrl)}">
+<link rel="stylesheet" href="${esc(showcaseFontsUrl)}">
 <style>
 ${strip(baseCss())}
+
+${strip(typeCss())}
 
 ${strip(motionCss())}
 
 /* Un thème par produit, sélectionné par data-product sur <html> (dans un vrai projet : un seul fichier themes/<nom>.css). */
 ${themeCssAll}
+
+${previewCss}
 ${showcaseCss}</style>
 </head>
 <body>
@@ -211,13 +269,16 @@ ${showcaseCss}</style>
 
 <section><div class="wrap">
   <h2>Typographie</h2>
-  <p class="lead">Bricolage Grotesque pour les titres (700 à 800, -0.02em), Inter pour le texte, JetBrains Mono pour le code.</p>
+  <p class="lead">Bricolage Grotesque par défaut pour les titres (800, -0.02em), Inter pour le texte, JetBrains Mono pour le code.</p>
   <div class="fonts">
-    <div><code>--sd-font-display</code><div style="font:800 1.875rem var(--sd-font-display);letter-spacing:var(--sd-display-tracking)">Bricolage Grotesque</div></div>
+    <div><code>--sd-font-display</code><div class="sd-display" style="font-size:1.875rem">Titre du produit courant</div></div>
     <div><code>--sd-font-sans</code><div style="font:400 1.125rem var(--sd-font-sans)">Inter : le corps du texte, lisible et neutre.</div></div>
     <div><code>--sd-font-mono</code><div style="font:500 1rem var(--sd-font-mono)">JetBrains Mono 0123</div></div>
   </div>
-  <h3>Échelle</h3>
+  <h3>Titres par produit</h3>
+  <p class="lead">Chaque produit peut redéfinir la police de titre (classe .sd-display) ; les autres gardent Bricolage Grotesque.</p>
+  <div class="titles">${titlePanels}</div>
+  <h3>Échelle (produit courant)</h3>
   ${typeRows}
 </div></section>
 
@@ -292,6 +353,50 @@ ${showcaseCss}</style>
       <h3>Canvas</h3>
       <div class="canvas-box" id="canvas-demo"></div>
       <p class="hint">mountCanvas : DPR, pause hors écran, couleurs du thème courant.</p>
+    </div>
+  </div>
+  <h3>Signature</h3>
+  <p class="lead" style="margin-bottom:1rem">À n'utiliser qu'une fois par écran. Le défilement et les pointillés sont continus, les autres se rejouent.</p>
+  <div class="comp">
+    <div class="panel" style="grid-column: 1 / -1">
+      <h3>.sd-marquee</h3>
+      <div class="marquee-wrap">
+        <div class="sd-marquee" style="--sd-marquee-duration:18s">
+          <div><span>GEOGAME</span><span>·</span><span>MMA UNIVERSE</span><span>·</span><span>DAILYLINGUA</span><span>·</span><span>PORTFOLIO</span><span>·</span></div>
+          <div aria-hidden="true"><span>GEOGAME</span><span>·</span><span>MMA UNIVERSE</span><span>·</span><span>DAILYLINGUA</span><span>·</span><span>PORTFOLIO</span><span>·</span></div>
+        </div>
+      </div>
+      <p class="hint">Contenu dupliqué (2e copie en aria-hidden), durée via --sd-marquee-duration.</p>
+    </div>
+    <div class="panel">
+      <h3>.sd-ink</h3>
+      <div class="sig-demo"><span class="sd-ink ink-text" id="ink-demo">Révélé de gauche à droite</span></div>
+      <button type="button" class="btn btn-secondary" data-replay="ink-demo">Rejouer</button>
+    </div>
+    <div class="panel">
+      <h3>.sd-punch</h3>
+      <div class="sig-demo"><span class="sd-punch punch-chip" id="punch-demo">Nouveau</span></div>
+      <button type="button" class="btn btn-secondary" data-replay="punch-demo">Rejouer</button>
+    </div>
+    <div class="panel">
+      <h3>.sd-stamp</h3>
+      <div class="sig-demo"><span class="sd-stamp stamp" id="stamp-demo">Validé</span></div>
+      <button type="button" class="btn btn-secondary" data-replay="stamp-demo">Rejouer</button>
+    </div>
+    <div class="panel">
+      <h3>.sd-mark</h3>
+      <div class="sig-demo" style="font-weight:600;font-size:1.125rem"><span>Un mot <span class="sd-mark" id="mark-demo">surligné au marqueur</span> dans la phrase.</span></div>
+      <button type="button" class="btn btn-secondary" data-replay="mark-demo">Rejouer</button>
+    </div>
+    <div class="panel">
+      <h3>.sd-route</h3>
+      <svg class="route-svg" viewBox="0 0 300 64" role="img" aria-label="Itinéraire en pointillés"><path class="sd-route" d="M14 48 C 70 4, 120 60, 170 30 S 250 10, 286 26"/><circle cx="14" cy="48" r="6"/><circle cx="286" cy="26" r="6"/></svg>
+      <p class="hint">Pointillés SVG qui défilent.</p>
+    </div>
+    <div class="panel" id="count-demo">
+      <h3>initCountUp</h3>
+      <div class="sig-demo"><span class="count" data-count-to="12840">12 840</span><span class="count" style="margin-left:1.25rem" data-count-to="98.6">98,6</span></div>
+      <button type="button" class="btn btn-secondary" id="count-btn">Rejouer</button>
     </div>
   </div>
 </div></section>
