@@ -1,7 +1,13 @@
 /* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
-/* Thème « DailyLingua » : accents uniquement, à combiner avec base.css. */
+/* Thème « DailyLingua » : accents et neutres, à combiner avec base.css (à importer après). */
 
 :root {
+  --sd-bg: #f5f1e8;
+  --sd-surface: #fffcf6;
+  --sd-surface-2: #ede7da;
+  --sd-ink: #1d1b17;
+  --sd-muted: #6b655c;
+  --sd-line: #d9d2c4;
   --sd-accent: #33478c;
   --sd-accent-strong: #33478c;
   --sd-accent-ink: #ffffff;
@@ -10,6 +16,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --sd-bg: #0f0e0c;
+    --sd-surface: #181614;
+    --sd-surface-2: #1d1a17;
+    --sd-ink: #f3efe6;
+    --sd-muted: #a39b8e;
+    --sd-line: #34302a;
     --sd-accent: #8fa2ff;
     --sd-accent-strong: #b3c0ff;
     --sd-accent-ink: #0d1330;
@@ -18,6 +30,12 @@
 }
 
 :root[data-theme="dark"] {
+  --sd-bg: #0f0e0c;
+  --sd-surface: #181614;
+  --sd-surface-2: #1d1a17;
+  --sd-ink: #f3efe6;
+  --sd-muted: #a39b8e;
+  --sd-line: #34302a;
   --sd-accent: #8fa2ff;
   --sd-accent-strong: #b3c0ff;
   --sd-accent-ink: #0d1330;

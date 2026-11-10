@@ -24,6 +24,9 @@ export interface Neutrals {
   line: Pair;
 }
 
+/** Surcharge de neutres par thème : clés et schemes optionnels, le reste vient de la base. */
+export type NeutralOverrides = { [K in keyof Neutrals]?: Partial<Pair> };
+
 export const neutrals: Neutrals = {
   bg: { light: '#f6f3ec', dark: '#0f0e0c' },
   surface: { light: '#fffdf8', dark: '#181614' },
@@ -41,8 +44,9 @@ export interface Status {
 
 export const status: Status = {
   live: { light: '#1a9d55', dark: '#3ccf7f' },
-  // light ajusté (#c98a00 -> #c58700) : #c98a00 donnait 2.90:1 sur surface, sous le seuil de 3:1.
-  wip: { light: '#c58700', dark: '#f0b429' },
+  // light ajusté (#c98a00 -> #c58700 -> #c48700) : #c98a00 donnait 2.90:1 sur surface, sous le seuil de 3:1 ;
+  // #c58700 donnait 2.998:1 sur la surface #fffcf6 de DailyLingua (neutres surchargés).
+  wip: { light: '#c48700', dark: '#f0b429' },
   danger: { light: '#c62828', dark: '#ff6b6b' },
 };
 
@@ -58,6 +62,8 @@ export interface ThemeTokens {
   /** Texte posé SUR l'accent (boutons pleins, ::selection). */
   'accent-ink': Pair;
   'accent-2': Pair;
+  /** Neutres redéfinis par ce thème (tout ce qui est absent reste celui de la base). */
+  neutrals?: NeutralOverrides;
   /**
    * Taille de texte autorisée sur un fond accent : 'normal' impose accent-ink/accent >= 4.5,
    * 'large' (texte >= 18.66px gras ou >= 24px, icônes) se contente de >= 3.
@@ -81,6 +87,15 @@ export const themes: Record<ThemeName, ThemeTokens> = {
     'accent-strong': { light: '#0b7a4c', dark: '#5fe6ab' },
     'accent-ink': { light: '#04261a', dark: '#04261a' },
     'accent-2': { light: '#7c4dff', dark: '#c792ff' },
+    // bleu nuit
+    neutrals: {
+      bg: { light: '#f3f5fa', dark: '#0b1020' },
+      surface: { light: '#ffffff', dark: '#141b30' },
+      'surface-2': { light: '#e6eaf3', dark: '#1b2440' },
+      ink: { light: '#0b1020', dark: '#eef1f8' },
+      muted: { light: '#5a6380', dark: '#8a93b0' },
+      line: { light: '#d5dbe8', dark: '#26304d' },
+    },
     accentInkText: { light: 'normal', dark: 'normal' },
   },
   mma: {
@@ -89,6 +104,11 @@ export const themes: Record<ThemeName, ThemeTokens> = {
     'accent-strong': { light: '#b3141c', dark: '#ff7a80' },
     'accent-ink': { light: '#ffffff', dark: '#1a0406' },
     'accent-2': { light: '#c07a00', dark: '#f5b83d' },
+    neutrals: {
+      bg: { dark: '#0b0a09' },
+      surface: { dark: '#171513' },
+      'surface-2': { light: '#e6e0d3', dark: '#26221e' },
+    },
     accentInkText: { light: 'normal', dark: 'normal' },
   },
   dailylingua: {
@@ -97,11 +117,28 @@ export const themes: Record<ThemeName, ThemeTokens> = {
     'accent-strong': { light: '#33478c', dark: '#b3c0ff' },
     'accent-ink': { light: '#ffffff', dark: '#0d1330' },
     'accent-2': { light: '#b0502b', dark: '#e2825c' },
+    // papier journal
+    neutrals: {
+      bg: { light: '#f5f1e8', dark: '#0f0e0c' },
+      surface: { light: '#fffcf6', dark: '#181614' },
+      'surface-2': { light: '#ede7da', dark: '#1d1a17' },
+      ink: { light: '#1d1b17', dark: '#f3efe6' },
+      muted: { light: '#6b655c', dark: '#a39b8e' },
+      line: { light: '#d9d2c4', dark: '#34302a' },
+    },
     accentInkText: { light: 'normal', dark: 'normal' },
   },
 };
 
 export const themeNames = Object.keys(themes) as ThemeName[];
+
+/** Neutres EFFECTIFS d'un thème : base + surcharges du thème. */
+export function themeNeutrals(name: ThemeName): Neutrals {
+  const over = themes[name].neutrals ?? {};
+  return Object.fromEntries(
+    (Object.keys(neutrals) as (keyof Neutrals)[]).map((k) => [k, { ...neutrals[k], ...over[k] }]),
+  ) as unknown as Neutrals;
+}
 
 // ---------------------------------------------------------------------------
 // Typographie, rayons, ombres, motion

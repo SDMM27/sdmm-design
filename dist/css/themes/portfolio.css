@@ -1,5 +1,5 @@
 /* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
-/* Thème « Portfolio » : accents uniquement, à combiner avec base.css. */
+/* Thème « Portfolio » : accents, à combiner avec base.css (à importer après). */
 
 :root {
   --sd-accent: #ff4f1a;

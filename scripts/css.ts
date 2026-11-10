@@ -8,6 +8,7 @@ import {
   shadow,
   status,
   themes,
+  themeNeutrals,
   type Pair,
   type ThemeName,
 } from '../src/tokens';
@@ -100,7 +101,11 @@ ${schemeBlocks(':root', light, dark)}
 
 export function themeVars(name: ThemeName, scheme: 'light' | 'dark'): Decls {
   const t = themes[name];
+  const over = themes[name].neutrals ?? {};
   return {
+    ...Object.fromEntries(
+      Object.entries(over).flatMap(([k, v]) => (v?.[scheme] ? [[`--sd-${k}`, v[scheme]]] : [])),
+    ),
     '--sd-accent': t.accent[scheme],
     '--sd-accent-strong': t['accent-strong'][scheme],
     '--sd-accent-ink': t['accent-ink'][scheme],
@@ -114,7 +119,7 @@ export function themeBlocks(name: ThemeName, selector = ':root'): string {
 }
 
 export function themeCss(name: ThemeName): string {
-  return `${BANNER}/* Thème « ${themes[name].label} » : accents uniquement, à combiner avec base.css. */
+  return `${BANNER}/* Thème « ${themes[name].label} » : accents${themes[name].neutrals ? ' et neutres' : ''}, à combiner avec base.css (à importer après). */
 
 ${themeBlocks(name)}
 `;

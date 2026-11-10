@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { neutrals, schemes, status, themeNames, themes } from '../src/tokens';
+import { schemes, status, themeNames, themeNeutrals, themes } from '../src/tokens';
 
 function luminance(hex: string): number {
   const n = parseInt(hex.slice(1), 16);
@@ -17,6 +17,7 @@ function ratio(a: string, b: string): number {
 
 describe.each(themeNames)('contraste du thème %s', (name) => {
   const t = themes[name];
+  const neutrals = themeNeutrals(name); // neutres effectifs : base + surcharges du thème
   describe.each(schemes)('%s', (s) => {
     const bg = neutrals.bg[s];
 

@@ -8,6 +8,7 @@ import {
   radius,
   status,
   themeNames,
+  themeNeutrals,
   themes,
   type Pair,
   type Scheme,
@@ -146,7 +147,7 @@ const camel = (s: string) => s.replace(/-(\w)/g, (_, c: string) => c.toUpperCase
 
 function resolvedColors(name: ThemeName, scheme: Scheme, key: (k: string) => string = camel): Record<string, string> {
   const t = themes[name];
-  const all: Record<string, Pair> = { ...neutrals, ...status };
+  const all: Record<string, Pair> = { ...themeNeutrals(name), ...status };
   const out: Record<string, string> = {};
   for (const [k, v] of Object.entries(all)) out[key(k)] = v[scheme];
   for (const k of ['accent', 'accent-strong', 'accent-ink', 'accent-2'] as const) out[key(k)] = t[k][scheme];

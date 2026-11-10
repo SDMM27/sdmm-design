@@ -18,7 +18,7 @@
   --sd-muted: #6b655c;
   --sd-line: #d9d2c4;
   --sd-live: #1a9d55;
-  --sd-wip: #c58700;
+  --sd-wip: #c48700;
   --sd-danger: #c62828;
   --sd-shadow-sm: 0 1px 2px rgb(60 40 20 / 0.07), 0 1px 1px rgb(60 40 20 / 0.04);
   --sd-shadow-md: 0 8px 18px -6px rgb(60 40 20 / 0.14), 0 2px 5px rgb(60 40 20 / 0.06);
@@ -213,6 +213,12 @@
 }
 
 :root[data-product="geogame"] {
+  --sd-bg: #f3f5fa;
+  --sd-surface: #ffffff;
+  --sd-surface-2: #e6eaf3;
+  --sd-ink: #0b1020;
+  --sd-muted: #5a6380;
+  --sd-line: #d5dbe8;
   --sd-accent: #14a86b;
   --sd-accent-strong: #0b7a4c;
   --sd-accent-ink: #04261a;
@@ -221,6 +227,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root[data-product="geogame"]:not([data-theme="light"]) {
+    --sd-bg: #0b1020;
+    --sd-surface: #141b30;
+    --sd-surface-2: #1b2440;
+    --sd-ink: #eef1f8;
+    --sd-muted: #8a93b0;
+    --sd-line: #26304d;
     --sd-accent: #3ddc97;
     --sd-accent-strong: #5fe6ab;
     --sd-accent-ink: #04261a;
@@ -229,6 +241,12 @@
 }
 
 :root[data-product="geogame"][data-theme="dark"] {
+  --sd-bg: #0b1020;
+  --sd-surface: #141b30;
+  --sd-surface-2: #1b2440;
+  --sd-ink: #eef1f8;
+  --sd-muted: #8a93b0;
+  --sd-line: #26304d;
   --sd-accent: #3ddc97;
   --sd-accent-strong: #5fe6ab;
   --sd-accent-ink: #04261a;
@@ -236,6 +254,7 @@
 }
 
 :root[data-product="mma"] {
+  --sd-surface-2: #e6e0d3;
   --sd-accent: #e0262f;
   --sd-accent-strong: #b3141c;
   --sd-accent-ink: #ffffff;
@@ -244,6 +263,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root[data-product="mma"]:not([data-theme="light"]) {
+    --sd-bg: #0b0a09;
+    --sd-surface: #171513;
+    --sd-surface-2: #26221e;
     --sd-accent: #ff4d55;
     --sd-accent-strong: #ff7a80;
     --sd-accent-ink: #1a0406;
@@ -252,6 +274,9 @@
 }
 
 :root[data-product="mma"][data-theme="dark"] {
+  --sd-bg: #0b0a09;
+  --sd-surface: #171513;
+  --sd-surface-2: #26221e;
   --sd-accent: #ff4d55;
   --sd-accent-strong: #ff7a80;
   --sd-accent-ink: #1a0406;
@@ -259,6 +284,12 @@
 }
 
 :root[data-product="dailylingua"] {
+  --sd-bg: #f5f1e8;
+  --sd-surface: #fffcf6;
+  --sd-surface-2: #ede7da;
+  --sd-ink: #1d1b17;
+  --sd-muted: #6b655c;
+  --sd-line: #d9d2c4;
   --sd-accent: #33478c;
   --sd-accent-strong: #33478c;
   --sd-accent-ink: #ffffff;
@@ -267,6 +298,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root[data-product="dailylingua"]:not([data-theme="light"]) {
+    --sd-bg: #0f0e0c;
+    --sd-surface: #181614;
+    --sd-surface-2: #1d1a17;
+    --sd-ink: #f3efe6;
+    --sd-muted: #a39b8e;
+    --sd-line: #34302a;
     --sd-accent: #8fa2ff;
     --sd-accent-strong: #b3c0ff;
     --sd-accent-ink: #0d1330;
@@ -275,6 +312,12 @@
 }
 
 :root[data-product="dailylingua"][data-theme="dark"] {
+  --sd-bg: #0f0e0c;
+  --sd-surface: #181614;
+  --sd-surface-2: #1d1a17;
+  --sd-ink: #f3efe6;
+  --sd-muted: #a39b8e;
+  --sd-line: #34302a;
   --sd-accent: #8fa2ff;
   --sd-accent-strong: #b3c0ff;
   --sd-accent-ink: #0d1330;

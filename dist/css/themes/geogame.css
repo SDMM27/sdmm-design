@@ -1,7 +1,13 @@
 /* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
-/* Thème « GeoGame » : accents uniquement, à combiner avec base.css. */
+/* Thème « GeoGame » : accents et neutres, à combiner avec base.css (à importer après). */
 
 :root {
+  --sd-bg: #f3f5fa;
+  --sd-surface: #ffffff;
+  --sd-surface-2: #e6eaf3;
+  --sd-ink: #0b1020;
+  --sd-muted: #5a6380;
+  --sd-line: #d5dbe8;
   --sd-accent: #14a86b;
   --sd-accent-strong: #0b7a4c;
   --sd-accent-ink: #04261a;
@@ -10,6 +16,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --sd-bg: #0b1020;
+    --sd-surface: #141b30;
+    --sd-surface-2: #1b2440;
+    --sd-ink: #eef1f8;
+    --sd-muted: #8a93b0;
+    --sd-line: #26304d;
     --sd-accent: #3ddc97;
     --sd-accent-strong: #5fe6ab;
     --sd-accent-ink: #04261a;
@@ -18,6 +30,12 @@
 }
 
 :root[data-theme="dark"] {
+  --sd-bg: #0b1020;
+  --sd-surface: #141b30;
+  --sd-surface-2: #1b2440;
+  --sd-ink: #eef1f8;
+  --sd-muted: #8a93b0;
+  --sd-line: #26304d;
   --sd-accent: #3ddc97;
   --sd-accent-strong: #5fe6ab;
   --sd-accent-ink: #04261a;
