@@ -1,0 +1,42 @@
+{
+  "name": "@sdmm/design",
+  "version": "1.0.0",
+  "description": "Design system partagé des projets de Sacha Don : base commune + un jeu d'accents par produit.",
+  "license": "MIT",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./css/*": "./dist/css/*",
+    "./tailwind/v4.css": "./dist/tailwind/v4.css",
+    "./tailwind/preset": {
+      "types": "./dist/tailwind/preset.d.cts",
+      "default": "./dist/tailwind/preset.cjs"
+    },
+    "./native": {
+      "types": "./dist/native/index.d.ts",
+      "default": "./dist/native/index.js"
+    },
+    "./js": {
+      "types": "./dist/js/index.d.ts",
+      "default": "./dist/js/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsx scripts/build.ts",
+    "test": "vitest run",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.12"
+  }
+}
