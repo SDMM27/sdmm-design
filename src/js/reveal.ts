@@ -1,0 +1,32 @@
+export interface RevealOptions {
+  /** Éléments à révéler. Défaut : `.sd-reveal`. */
+  selector?: string;
+}
+
+/**
+ * Apparition au scroll : pose `.is-visible` quand l'élément entre dans la fenêtre.
+ * Sans IntersectionObserver ou avec prefers-reduced-motion, tout est visible immédiatement.
+ * Renvoie une fonction de nettoyage.
+ */
+export function initReveal(options: RevealOptions = {}): () => void {
+  if (typeof document === 'undefined') return () => {};
+  const items = document.querySelectorAll<HTMLElement>(options.selector ?? '.sd-reveal');
+  if (!items.length) return () => {};
+  if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    items.forEach((el) => el.classList.add('is-visible'));
+    return () => {};
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-visible');
+          io.unobserve(e.target);
+        }
+      }
+    },
+    { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+  );
+  items.forEach((el) => io.observe(el));
+  return () => io.disconnect();
+}
