@@ -1,0 +1,25 @@
+/* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
+/* Thème « MMA Universe » : accents uniquement, à combiner avec base.css. */
+
+:root {
+  --sd-accent: #e0262f;
+  --sd-accent-strong: #b3141c;
+  --sd-accent-ink: #ffffff;
+  --sd-accent-2: #c07a00;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sd-accent: #ff4d55;
+    --sd-accent-strong: #ff7a80;
+    --sd-accent-ink: #1a0406;
+    --sd-accent-2: #f5b83d;
+  }
+}
+
+:root[data-theme="dark"] {
+  --sd-accent: #ff4d55;
+  --sd-accent-strong: #ff7a80;
+  --sd-accent-ink: #1a0406;
+  --sd-accent-2: #f5b83d;
+}

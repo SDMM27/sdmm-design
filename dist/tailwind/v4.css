@@ -1,0 +1,48 @@
+/* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
+/* Tailwind 4 : @import "@sdmm/design/tailwind/v4.css"; (après "tailwindcss" et le CSS @sdmm/design). */
+
+/* dark: suit data-theme, et la préférence système tant qu'aucun data-theme="light" n'est posé. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]), :root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+}
+
+@theme inline {
+  --color-bg: var(--sd-bg);
+  --color-surface: var(--sd-surface);
+  --color-surface-2: var(--sd-surface-2);
+  --color-ink: var(--sd-ink);
+  --color-muted: var(--sd-muted);
+  --color-line: var(--sd-line);
+  --color-accent: var(--sd-accent);
+  --color-accent-strong: var(--sd-accent-strong);
+  --color-accent-ink: var(--sd-accent-ink);
+  --color-accent-2: var(--sd-accent-2);
+  --color-live: var(--sd-live);
+  --color-wip: var(--sd-wip);
+  --color-danger: var(--sd-danger);
+  --font-display: var(--sd-font-display);
+  --font-sans: var(--sd-font-sans);
+  --font-mono: var(--sd-font-mono);
+  --radius-card: var(--sd-radius-card);
+  --ease-out: var(--sd-ease-out);
+  --ease-spring: var(--sd-ease-spring);
+  --ease-in-out: var(--sd-ease-in-out);
+}
+
+/* Durées : duration-fast / duration-base / duration-slow. */
+@utility duration-fast {
+  transition-duration: var(--sd-dur-fast);
+}
+@utility duration-base {
+  transition-duration: var(--sd-dur-base);
+}
+@utility duration-slow {
+  transition-duration: var(--sd-dur-slow);
+}

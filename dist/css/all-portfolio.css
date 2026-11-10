@@ -1,0 +1,201 @@
+/* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
+/* base + thème « Portfolio » + motion en un seul import. */
+
+:root {
+  --sd-bg: #f6f3ec;
+  --sd-surface: #fffdf8;
+  --sd-surface-2: #ece7dc;
+  --sd-ink: #16130f;
+  --sd-muted: #6b655c;
+  --sd-line: #d9d2c4;
+  --sd-live: #1a9d55;
+  --sd-wip: #c58700;
+  --sd-danger: #c62828;
+  --sd-shadow-sm: 0 1px 2px rgb(60 40 20 / 0.07), 0 1px 1px rgb(60 40 20 / 0.04);
+  --sd-shadow-md: 0 8px 18px -6px rgb(60 40 20 / 0.14), 0 2px 5px rgb(60 40 20 / 0.06);
+  --sd-shadow-lg: 0 28px 56px -18px rgb(60 40 20 / 0.26), 0 10px 20px -10px rgb(60 40 20 / 0.12);
+  --sd-font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --sd-font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --sd-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --sd-display-tracking: -0.02em;
+  --sd-text-xs: 0.75rem;
+  --sd-text-sm: 0.875rem;
+  --sd-text-base: 1rem;
+  --sd-text-lg: 1.125rem;
+  --sd-text-xl: 1.25rem;
+  --sd-text-2xl: 1.5rem;
+  --sd-text-3xl: 1.875rem;
+  --sd-text-4xl: 2.25rem;
+  --sd-text-5xl: 3rem;
+  --sd-text-6xl: 3.75rem;
+  --sd-radius-sm: 0.5rem;
+  --sd-radius-md: 0.875rem;
+  --sd-radius-card: 1.25rem;
+  --sd-radius-pill: 999px;
+  --sd-dur-fast: 150ms;
+  --sd-dur-base: 250ms;
+  --sd-dur-slow: 600ms;
+  --sd-ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --sd-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --sd-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --sd-stagger: 70ms;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sd-bg: #0f0e0c;
+    --sd-surface: #181614;
+    --sd-surface-2: #23201c;
+    --sd-ink: #f3efe6;
+    --sd-muted: #a39b8e;
+    --sd-line: #34302a;
+    --sd-live: #3ccf7f;
+    --sd-wip: #f0b429;
+    --sd-danger: #ff6b6b;
+    --sd-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.45), 0 1px 1px rgb(0 0 0 / 0.3);
+    --sd-shadow-md: 0 10px 22px -6px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.35);
+    --sd-shadow-lg: 0 30px 60px -16px rgb(0 0 0 / 0.7), 0 10px 22px -10px rgb(0 0 0 / 0.5);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --sd-bg: #0f0e0c;
+  --sd-surface: #181614;
+  --sd-surface-2: #23201c;
+  --sd-ink: #f3efe6;
+  --sd-muted: #a39b8e;
+  --sd-line: #34302a;
+  --sd-live: #3ccf7f;
+  --sd-wip: #f0b429;
+  --sd-danger: #ff6b6b;
+  --sd-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.45), 0 1px 1px rgb(0 0 0 / 0.3);
+  --sd-shadow-md: 0 10px 22px -6px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.35);
+  --sd-shadow-lg: 0 30px 60px -16px rgb(0 0 0 / 0.7), 0 10px 22px -10px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+::selection {
+  background: var(--sd-accent);
+  color: var(--sd-accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--sd-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+:root {
+  --sd-accent: #ff4f1a;
+  --sd-accent-strong: #c2380c;
+  --sd-accent-ink: #ffffff;
+  --sd-accent-2: #2f5bff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sd-accent: #ff6a3d;
+    --sd-accent-strong: #ff8a63;
+    --sd-accent-ink: #120a06;
+    --sd-accent-2: #7d97ff;
+  }
+}
+
+:root[data-theme="dark"] {
+  --sd-accent: #ff6a3d;
+  --sd-accent-strong: #ff8a63;
+  --sd-accent-ink: #120a06;
+  --sd-accent-2: #7d97ff;
+}
+
+/* Apparition au scroll (initReveal) ; --i = rang dans la série pour le décalage. */
+.js .sd-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--sd-dur-slow) ease,
+    transform var(--sd-dur-slow) var(--sd-ease-out);
+  transition-delay: calc(var(--i, 0) * var(--sd-stagger));
+}
+.js .sd-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Tilt 3D des cartes : --rx / --ry posées par initTilt (pointeur fin uniquement). */
+.sd-tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.18s ease-out,
+    box-shadow var(--sd-dur-base) ease,
+    border-color var(--sd-dur-base) ease;
+  will-change: transform;
+}
+
+/* Rebond « spring » au survol / à l'appui. */
+.sd-spring {
+  transition: transform var(--sd-dur-base) var(--sd-ease-spring);
+}
+.sd-spring:hover { transform: scale(1.06); }
+.sd-spring:active { transform: scale(0.96); }
+
+/* Point pulsé (couleur par défaut : wip, surchargeable via --sd-pulse). */
+@keyframes sd-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sd-pulse, var(--sd-wip)) 60%, transparent); }
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.sd-pulse-dot { animation: sd-pulse 1.8s ease-out infinite; }
+
+/* Squelette de chargement. */
+@keyframes sd-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+.sd-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--sd-surface-2) 30%,
+    color-mix(in srgb, var(--sd-surface) 70%, var(--sd-surface-2)) 50%,
+    var(--sd-surface-2) 70%
+  );
+  background-size: 200% 100%;
+  animation: sd-shimmer 1.6s linear infinite;
+}
+
+/* Toast : ajouter .is-visible pour l'afficher. */
+.sd-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 70;
+  max-width: calc(100vw - 2rem);
+  transform: translate(-50%, 1rem);
+  opacity: 0;
+  transition:
+    opacity var(--sd-dur-base) ease,
+    transform var(--sd-dur-base) var(--sd-ease-spring);
+  pointer-events: none;
+}
+.sd-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .sd-reveal { opacity: 1; transform: none; transition: none; }
+  .sd-tilt { transform: none; transition: none; will-change: auto; }
+  .sd-spring:hover, .sd-spring:active { transform: none; }
+  .sd-pulse-dot, .sd-shimmer { animation: none; }
+  .sd-toast { transform: translate(-50%, 0); transition: opacity 0.001ms; }
+}

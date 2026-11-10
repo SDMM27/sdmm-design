@@ -1,0 +1,843 @@
+<!doctype html>
+<html lang="fr" data-product="portfolio">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sdmm-design · showcase</title>
+<meta name="description" content="Showcase du design system partagé de Sacha Don.">
+<script>(function(){try{var t=localStorage.getItem("sd-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}document.documentElement.classList.add("js")})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700..800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<style>
+:root {
+  --sd-bg: #f6f3ec;
+  --sd-surface: #fffdf8;
+  --sd-surface-2: #ece7dc;
+  --sd-ink: #16130f;
+  --sd-muted: #6b655c;
+  --sd-line: #d9d2c4;
+  --sd-live: #1a9d55;
+  --sd-wip: #c58700;
+  --sd-danger: #c62828;
+  --sd-shadow-sm: 0 1px 2px rgb(60 40 20 / 0.07), 0 1px 1px rgb(60 40 20 / 0.04);
+  --sd-shadow-md: 0 8px 18px -6px rgb(60 40 20 / 0.14), 0 2px 5px rgb(60 40 20 / 0.06);
+  --sd-shadow-lg: 0 28px 56px -18px rgb(60 40 20 / 0.26), 0 10px 20px -10px rgb(60 40 20 / 0.12);
+  --sd-font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --sd-font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --sd-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --sd-display-tracking: -0.02em;
+  --sd-text-xs: 0.75rem;
+  --sd-text-sm: 0.875rem;
+  --sd-text-base: 1rem;
+  --sd-text-lg: 1.125rem;
+  --sd-text-xl: 1.25rem;
+  --sd-text-2xl: 1.5rem;
+  --sd-text-3xl: 1.875rem;
+  --sd-text-4xl: 2.25rem;
+  --sd-text-5xl: 3rem;
+  --sd-text-6xl: 3.75rem;
+  --sd-radius-sm: 0.5rem;
+  --sd-radius-md: 0.875rem;
+  --sd-radius-card: 1.25rem;
+  --sd-radius-pill: 999px;
+  --sd-dur-fast: 150ms;
+  --sd-dur-base: 250ms;
+  --sd-dur-slow: 600ms;
+  --sd-ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --sd-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --sd-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --sd-stagger: 70ms;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sd-bg: #0f0e0c;
+    --sd-surface: #181614;
+    --sd-surface-2: #23201c;
+    --sd-ink: #f3efe6;
+    --sd-muted: #a39b8e;
+    --sd-line: #34302a;
+    --sd-live: #3ccf7f;
+    --sd-wip: #f0b429;
+    --sd-danger: #ff6b6b;
+    --sd-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.45), 0 1px 1px rgb(0 0 0 / 0.3);
+    --sd-shadow-md: 0 10px 22px -6px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.35);
+    --sd-shadow-lg: 0 30px 60px -16px rgb(0 0 0 / 0.7), 0 10px 22px -10px rgb(0 0 0 / 0.5);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --sd-bg: #0f0e0c;
+  --sd-surface: #181614;
+  --sd-surface-2: #23201c;
+  --sd-ink: #f3efe6;
+  --sd-muted: #a39b8e;
+  --sd-line: #34302a;
+  --sd-live: #3ccf7f;
+  --sd-wip: #f0b429;
+  --sd-danger: #ff6b6b;
+  --sd-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.45), 0 1px 1px rgb(0 0 0 / 0.3);
+  --sd-shadow-md: 0 10px 22px -6px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.35);
+  --sd-shadow-lg: 0 30px 60px -16px rgb(0 0 0 / 0.7), 0 10px 22px -10px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+::selection {
+  background: var(--sd-accent);
+  color: var(--sd-accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--sd-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Utilitaires d'animation. Les .sd-reveal ne s'activent que sous .js (posé par themeScript / votre propre script). */
+
+/* Apparition au scroll (initReveal) ; --i = rang dans la série pour le décalage. */
+.js .sd-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--sd-dur-slow) ease,
+    transform var(--sd-dur-slow) var(--sd-ease-out);
+  transition-delay: calc(var(--i, 0) * var(--sd-stagger));
+}
+.js .sd-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Tilt 3D des cartes : --rx / --ry posées par initTilt (pointeur fin uniquement). */
+.sd-tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.18s ease-out,
+    box-shadow var(--sd-dur-base) ease,
+    border-color var(--sd-dur-base) ease;
+  will-change: transform;
+}
+
+/* Rebond « spring » au survol / à l'appui. */
+.sd-spring {
+  transition: transform var(--sd-dur-base) var(--sd-ease-spring);
+}
+.sd-spring:hover { transform: scale(1.06); }
+.sd-spring:active { transform: scale(0.96); }
+
+/* Point pulsé (couleur par défaut : wip, surchargeable via --sd-pulse). */
+@keyframes sd-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sd-pulse, var(--sd-wip)) 60%, transparent); }
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.sd-pulse-dot { animation: sd-pulse 1.8s ease-out infinite; }
+
+/* Squelette de chargement. */
+@keyframes sd-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+.sd-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--sd-surface-2) 30%,
+    color-mix(in srgb, var(--sd-surface) 70%, var(--sd-surface-2)) 50%,
+    var(--sd-surface-2) 70%
+  );
+  background-size: 200% 100%;
+  animation: sd-shimmer 1.6s linear infinite;
+}
+
+/* Toast : ajouter .is-visible pour l'afficher. */
+.sd-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 70;
+  max-width: calc(100vw - 2rem);
+  transform: translate(-50%, 1rem);
+  opacity: 0;
+  transition:
+    opacity var(--sd-dur-base) ease,
+    transform var(--sd-dur-base) var(--sd-ease-spring);
+  pointer-events: none;
+}
+.sd-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .sd-reveal { opacity: 1; transform: none; transition: none; }
+  .sd-tilt { transform: none; transition: none; will-change: auto; }
+  .sd-spring:hover, .sd-spring:active { transform: none; }
+  .sd-pulse-dot, .sd-shimmer { animation: none; }
+  .sd-toast { transform: translate(-50%, 0); transition: opacity 0.001ms; }
+}
+
+/* Un thème par produit, sélectionné par data-product sur <html> (dans un vrai projet : un seul fichier themes/<nom>.css). */
+:root[data-product="portfolio"] {
+  --sd-accent: #ff4f1a;
+  --sd-accent-strong: #c2380c;
+  --sd-accent-ink: #ffffff;
+  --sd-accent-2: #2f5bff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-product="portfolio"]:not([data-theme="light"]) {
+    --sd-accent: #ff6a3d;
+    --sd-accent-strong: #ff8a63;
+    --sd-accent-ink: #120a06;
+    --sd-accent-2: #7d97ff;
+  }
+}
+
+:root[data-product="portfolio"][data-theme="dark"] {
+  --sd-accent: #ff6a3d;
+  --sd-accent-strong: #ff8a63;
+  --sd-accent-ink: #120a06;
+  --sd-accent-2: #7d97ff;
+}
+
+:root[data-product="geogame"] {
+  --sd-accent: #14a86b;
+  --sd-accent-strong: #0b7a4c;
+  --sd-accent-ink: #04261a;
+  --sd-accent-2: #7c4dff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-product="geogame"]:not([data-theme="light"]) {
+    --sd-accent: #3ddc97;
+    --sd-accent-strong: #5fe6ab;
+    --sd-accent-ink: #04261a;
+    --sd-accent-2: #c792ff;
+  }
+}
+
+:root[data-product="geogame"][data-theme="dark"] {
+  --sd-accent: #3ddc97;
+  --sd-accent-strong: #5fe6ab;
+  --sd-accent-ink: #04261a;
+  --sd-accent-2: #c792ff;
+}
+
+:root[data-product="mma"] {
+  --sd-accent: #e0262f;
+  --sd-accent-strong: #b3141c;
+  --sd-accent-ink: #ffffff;
+  --sd-accent-2: #c07a00;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-product="mma"]:not([data-theme="light"]) {
+    --sd-accent: #ff4d55;
+    --sd-accent-strong: #ff7a80;
+    --sd-accent-ink: #1a0406;
+    --sd-accent-2: #f5b83d;
+  }
+}
+
+:root[data-product="mma"][data-theme="dark"] {
+  --sd-accent: #ff4d55;
+  --sd-accent-strong: #ff7a80;
+  --sd-accent-ink: #1a0406;
+  --sd-accent-2: #f5b83d;
+}
+
+:root[data-product="dailylingua"] {
+  --sd-accent: #33478c;
+  --sd-accent-strong: #33478c;
+  --sd-accent-ink: #ffffff;
+  --sd-accent-2: #b0502b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-product="dailylingua"]:not([data-theme="light"]) {
+    --sd-accent: #8fa2ff;
+    --sd-accent-strong: #b3c0ff;
+    --sd-accent-ink: #0d1330;
+    --sd-accent-2: #e2825c;
+  }
+}
+
+:root[data-product="dailylingua"][data-theme="dark"] {
+  --sd-accent: #8fa2ff;
+  --sd-accent-strong: #b3c0ff;
+  --sd-accent-ink: #0d1330;
+  --sd-accent-2: #e2825c;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { background: var(--sd-bg); color: var(--sd-ink); font-family: var(--sd-font-sans); -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+body { margin: 0; background: var(--sd-bg); overflow-x: hidden; line-height: 1.6; }
+h1, h2, h3 { font-family: var(--sd-font-display); font-weight: 800; letter-spacing: var(--sd-display-tracking); line-height: 1.1; margin: 0; }
+p { margin: 0; }
+code { font-family: var(--sd-font-mono); font-size: 0.75rem; color: var(--sd-muted); overflow-wrap: anywhere; }
+.wrap { max-width: 64rem; margin: 0 auto; padding: 0 1rem; }
+.bar { position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--sd-bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--sd-line); }
+.bar .wrap { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; padding-top: 0.75rem; padding-bottom: 0.75rem; }
+.seg { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+.seg button, .tog { font: 600 0.8125rem var(--sd-font-sans); color: var(--sd-ink); background: var(--sd-surface); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-pill); padding: 0.4rem 0.85rem; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--sd-accent); border-color: var(--sd-accent); color: var(--sd-accent-ink); }
+@media (max-width: 640px) { .bar { position: static; } }
+header.hero { padding: 3rem 0 2rem; }
+header.hero h1 { font-size: clamp(2.25rem, 9vw, 3.75rem); }
+header.hero h1 em { font-style: normal; color: var(--sd-accent-strong); }
+header.hero p { color: var(--sd-muted); max-width: 40rem; margin-top: 1rem; }
+section { padding: 2rem 0; border-top: 1px solid var(--sd-line); }
+section > .wrap > h2 { font-size: 1.875rem; margin-bottom: 0.4rem; }
+section > .wrap > .lead { color: var(--sd-muted); margin-bottom: 1.25rem; }
+h3 { font-size: 1.125rem; margin: 1.5rem 0 0.75rem; }
+.grid { display: grid; gap: 0.875rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); }
+.swatch { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
+.swatch b { font-size: 0.8125rem; }
+.chip-color { height: 3.5rem; border-radius: var(--sd-radius-md); border: 1px solid var(--sd-line); }
+.type-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.25rem 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--sd-line); }
+.type-row code { min-width: 6.5rem; }
+.type-row .s { font-family: var(--sd-font-display); font-weight: 800; letter-spacing: var(--sd-display-tracking); }
+.fonts { display: grid; gap: 0.75rem; }
+.fonts div { background: var(--sd-surface); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-md); padding: 0.75rem 1rem; }
+.box { background: var(--sd-surface); border: 1px solid var(--sd-line); height: 5rem; display: grid; place-items: center; font: 500 0.75rem var(--sd-font-mono); color: var(--sd-muted); }
+.shadow-box { height: 6rem; border-radius: var(--sd-radius-card); background: var(--sd-surface); display: grid; place-items: center; font: 500 0.75rem var(--sd-font-mono); color: var(--sd-muted); }
+.comp { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); align-items: start; }
+.panel { background: var(--sd-surface); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-card); padding: 1.25rem; box-shadow: var(--sd-shadow-md); }
+.panel h3 { margin-top: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.btn { font: 600 1rem var(--sd-font-sans); border-radius: var(--sd-radius-pill); padding: 0.7rem 1.3rem; border: 1px solid transparent; cursor: pointer; transition: transform var(--sd-dur-base) var(--sd-ease-spring), background var(--sd-dur-fast); }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--sd-accent); color: var(--sd-accent-ink); }
+.btn-secondary { background: transparent; color: var(--sd-ink); border-color: var(--sd-line); }
+.btn-secondary:hover { background: var(--sd-surface-2); }
+.link { color: var(--sd-accent-strong); font-weight: 600; text-underline-offset: 3px; }
+.badge { display: inline-flex; align-items: center; gap: 0.4rem; font: 500 0.75rem var(--sd-font-mono); color: var(--sd-ink); background: var(--sd-surface-2); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-pill); padding: 0.2rem 0.65rem; }
+.badge i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--c); --sd-pulse: var(--c); }
+.chip { font: 500 0.8125rem var(--sd-font-sans); color: var(--sd-ink); background: var(--sd-surface-2); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-pill); padding: 0.35rem 0.8rem; cursor: pointer; }
+.chip[aria-pressed="true"] { background: var(--sd-accent); border-color: var(--sd-accent); color: var(--sd-accent-ink); }
+label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.35rem; }
+input[type="text"] { width: 100%; font: 400 1rem var(--sd-font-sans); color: var(--sd-ink); background: var(--sd-surface); border: 1px solid var(--sd-line); border-radius: var(--sd-radius-md); padding: 0.65rem 0.85rem; }
+input[type="text"]::placeholder { color: var(--sd-muted); }
+input[type="text"]:focus { border-color: var(--sd-accent); }
+.hint { font-size: 0.8125rem; color: var(--sd-muted); margin-top: 0.35rem; }
+.toast-body { display: flex; align-items: center; gap: 0.6rem; background: var(--sd-ink); color: var(--sd-bg); border-radius: var(--sd-radius-pill); padding: 0.7rem 1.1rem; box-shadow: var(--sd-shadow-lg); font-size: 0.875rem; font-weight: 500; }
+.toast-body i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--sd-live); flex: none; }
+.demo-items { display: grid; gap: 0.6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 8rem), 1fr)); margin-bottom: 0.9rem; }
+.demo-items > div { background: var(--sd-surface-2); border-radius: var(--sd-radius-md); padding: 0.9rem; font: 500 0.75rem var(--sd-font-mono); color: var(--sd-muted); }
+.spring-ball { width: 3rem; height: 3rem; border-radius: 50%; background: var(--sd-accent-2); transition: transform var(--sd-dur-slow) var(--sd-ease-spring); }
+.spring-ball.on { transform: translateX(var(--dx, 8rem)); }
+.skel { height: 0.9rem; border-radius: var(--sd-radius-sm); margin-bottom: 0.5rem; }
+.canvas-box { height: 8.5rem; border-radius: var(--sd-radius-md); overflow: hidden; background: var(--sd-surface-2); }
+footer { padding: 2rem 0 4rem; color: var(--sd-muted); font-size: 0.875rem; }
+</style>
+</head>
+<body>
+<div class="bar"><div class="wrap">
+  <div class="seg" role="group" aria-label="Produit"><button type="button" data-product-btn="portfolio" aria-pressed="false">Portfolio</button><button type="button" data-product-btn="geogame" aria-pressed="false">GeoGame</button><button type="button" data-product-btn="mma" aria-pressed="false">MMA Universe</button><button type="button" data-product-btn="dailylingua" aria-pressed="false">DailyLingua</button></div>
+  <button type="button" class="tog" data-theme-toggle aria-pressed="false">Clair / sombre</button>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <h1 class="sd-reveal">sdmm-design : une base, <em>un accent</em> par produit.</h1>
+  <p class="sd-reveal" style="--i:1">Neutres, typographies, rayons, ombres et motion communs ; chaque produit n'apporte que ses accents. Changez de produit et de mode en haut de page.</p>
+</div></header>
+
+<section><div class="wrap">
+  <h2>Couleurs</h2>
+  <p class="lead">Les valeurs affichées sont lues en direct sur les variables --sd-*.</p>
+  <h3>Neutres</h3><div class="grid"><div class="swatch"><div class="chip-color" style="background:var(--sd-bg)"></div><b>bg</b><code data-var="--sd-bg"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-surface)"></div><b>surface</b><code data-var="--sd-surface"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-surface-2)"></div><b>surface-2</b><code data-var="--sd-surface-2"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-ink)"></div><b>ink</b><code data-var="--sd-ink"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-muted)"></div><b>muted</b><code data-var="--sd-muted"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-line)"></div><b>line</b><code data-var="--sd-line"></code></div></div>
+  <h3>Statuts</h3><div class="grid"><div class="swatch"><div class="chip-color" style="background:var(--sd-live)"></div><b>live</b><code data-var="--sd-live"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-wip)"></div><b>wip</b><code data-var="--sd-wip"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-danger)"></div><b>danger</b><code data-var="--sd-danger"></code></div></div>
+  <h3>Accents du produit</h3><div class="grid"><div class="swatch"><div class="chip-color" style="background:var(--sd-accent)"></div><b>accent</b><code data-var="--sd-accent"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-accent-strong)"></div><b>accent-strong</b><code data-var="--sd-accent-strong"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-accent-ink)"></div><b>accent-ink</b><code data-var="--sd-accent-ink"></code></div><div class="swatch"><div class="chip-color" style="background:var(--sd-accent-2)"></div><b>accent-2</b><code data-var="--sd-accent-2"></code></div></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Typographie</h2>
+  <p class="lead">Bricolage Grotesque pour les titres (700 à 800, -0.02em), Inter pour le texte, JetBrains Mono pour le code.</p>
+  <div class="fonts">
+    <div><code>--sd-font-display</code><div style="font:800 1.875rem var(--sd-font-display);letter-spacing:var(--sd-display-tracking)">Bricolage Grotesque</div></div>
+    <div><code>--sd-font-sans</code><div style="font:400 1.125rem var(--sd-font-sans)">Inter : le corps du texte, lisible et neutre.</div></div>
+    <div><code>--sd-font-mono</code><div style="font:500 1rem var(--sd-font-mono)">JetBrains Mono 0123</div></div>
+  </div>
+  <h3>Échelle</h3>
+  <div class="type-row"><code>xs · 12px</code><span class="s" style="font-size:var(--sd-text-xs);line-height:1.1">Aa Sacha</span></div><div class="type-row"><code>sm · 14px</code><span class="s" style="font-size:var(--sd-text-sm);line-height:1.25">Aa Sacha</span></div><div class="type-row"><code>base · 16px</code><span class="s" style="font-size:var(--sd-text-base);line-height:1.6">Aa Sacha</span></div><div class="type-row"><code>lg · 18px</code><span class="s" style="font-size:var(--sd-text-lg);line-height:1.6">Aa Sacha</span></div><div class="type-row"><code>xl · 20px</code><span class="s" style="font-size:var(--sd-text-xl);line-height:1.4">Aa Sacha</span></div><div class="type-row"><code>2xl · 24px</code><span class="s" style="font-size:var(--sd-text-2xl);line-height:1.25">Aa Sacha</span></div><div class="type-row"><code>3xl · 30px</code><span class="s" style="font-size:var(--sd-text-3xl);line-height:1.2">Aa Sacha</span></div><div class="type-row"><code>4xl · 36px</code><span class="s" style="font-size:var(--sd-text-4xl);line-height:1.1">Aa Sacha</span></div><div class="type-row"><code>5xl · 48px</code><span class="s" style="font-size:var(--sd-text-5xl);line-height:1.05">Aa Sacha</span></div><div class="type-row"><code>6xl · 60px</code><span class="s" style="font-size:var(--sd-text-6xl);line-height:1">Aa Sacha</span></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Rayons et ombres</h2>
+  <p class="lead">Ombres chaudes et douces en clair, plus marquées en sombre.</p>
+  <div class="grid"><div class="box" style="border-radius:var(--sd-radius-sm)">sm</div><div class="box" style="border-radius:var(--sd-radius-md)">md</div><div class="box" style="border-radius:var(--sd-radius-card)">card</div><div class="box" style="border-radius:var(--sd-radius-pill)">pill</div></div>
+  <h3>Ombres</h3>
+  <div class="grid"><div class="shadow-box" style="box-shadow:var(--sd-shadow-sm)">shadow-sm</div><div class="shadow-box" style="box-shadow:var(--sd-shadow-md)">shadow-md</div><div class="shadow-box" style="box-shadow:var(--sd-shadow-lg)">shadow-lg</div></div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Composants</h2>
+  <p class="lead">Accent pour les actions et la marque, accent-strong pour le texte coloré.</p>
+  <div class="comp">
+    <div class="panel sd-tilt">
+      <h3>Carte avec tilt</h3>
+      <p style="color:var(--sd-muted);margin-bottom:1rem">Survolez à la souris : inclinaison 3D légère, pointeur fin uniquement. Voir <a class="link" href="#">le détail</a>.</p>
+      <div class="row">
+        <button type="button" class="btn btn-primary">Action principale</button>
+        <button type="button" class="btn btn-secondary">Secondaire</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Badges et chips</h3>
+      <div class="row" style="margin-bottom:1rem">
+        <span class="badge"><i style="--c:var(--sd-live)"></i>en ligne</span>
+        <span class="badge"><i class="sd-pulse-dot" style="--c:var(--sd-wip)"></i>en développement</span>
+        <span class="badge"><i style="--c:var(--sd-danger)"></i>erreur</span>
+      </div>
+      <div class="row">
+        <button type="button" class="chip" aria-pressed="true">Tout</button>
+        <button type="button" class="chip" aria-pressed="false">Mobile</button>
+        <button type="button" class="chip" aria-pressed="false">Web</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Champ et toast</h3>
+      <label for="demo-input">Votre prénom</label>
+      <input id="demo-input" type="text" placeholder="Sacha">
+      <p class="hint">Le focus clavier utilise l'accent du produit.</p>
+      <div class="row" style="margin-top:1rem"><button type="button" class="btn btn-secondary" id="toast-btn">Afficher un toast</button></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Animations</h2>
+  <p class="lead">Une seule signature animée forte par écran. Tout est coupé sous prefers-reduced-motion.</p>
+  <div class="comp">
+    <div class="panel">
+      <h3>Reveal décalé</h3>
+      <div class="demo-items" id="reveal-demo">
+        <div class="sd-reveal is-visible" style="--i:0">--i: 0</div>
+        <div class="sd-reveal is-visible" style="--i:1">--i: 1</div>
+        <div class="sd-reveal is-visible" style="--i:2">--i: 2</div>
+      </div>
+      <button type="button" class="btn btn-secondary" id="reveal-btn">Rejouer</button>
+    </div>
+    <div class="panel">
+      <h3>Pulse, spring, shimmer</h3>
+      <div class="row" style="margin-bottom:1rem">
+        <span class="badge"><i class="sd-pulse-dot" style="--c:var(--sd-accent)"></i>pulse</span>
+        <button type="button" class="btn btn-primary sd-spring">spring</button>
+      </div>
+      <div class="sd-shimmer skel" style="width:90%"></div>
+      <div class="sd-shimmer skel" style="width:65%"></div>
+      <div style="margin:1rem 0 0.75rem"><div class="spring-ball" id="spring-ball"></div></div>
+      <button type="button" class="btn btn-secondary" id="spring-btn">Lancer la bille</button>
+    </div>
+    <div class="panel">
+      <h3>Canvas</h3>
+      <div class="canvas-box" id="canvas-demo"></div>
+      <p class="hint">mountCanvas : DPR, pause hors écran, couleurs du thème courant.</p>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">@sdmm/design 1.0.0 · généré depuis src/tokens.ts</div></footer>
+
+<div class="sd-toast" id="toast" role="status" aria-live="polite"><div class="toast-body"><i></i>Enregistré, tout est à jour.</div></div>
+
+<script>
+"use strict";
+var SdDesign = (() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // src/js/index.ts
+  var index_exports = {};
+  __export(index_exports, {
+    DEFAULT_STORAGE_KEY: () => DEFAULT_STORAGE_KEY,
+    alpha: () => alpha,
+    currentTheme: () => currentTheme,
+    display: () => display,
+    initReveal: () => initReveal,
+    initTheme: () => initTheme,
+    initTilt: () => initTilt,
+    mono: () => mono,
+    mountCanvas: () => mountCanvas,
+    prefersReducedMotion: () => prefersReducedMotion,
+    readPalette: () => readPalette,
+    roundRect: () => roundRect,
+    themeScript: () => themeScript
+  });
+
+  // src/js/reveal.ts
+  function initReveal(options = {}) {
+    if (typeof document === "undefined") return () => {
+    };
+    const items = document.querySelectorAll(options.selector ?? ".sd-reveal");
+    if (!items.length) return () => {
+    };
+    if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      items.forEach((el) => el.classList.add("is-visible"));
+      return () => {
+      };
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-visible");
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+    );
+    items.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }
+
+  // src/js/tilt.ts
+  function initTilt(options = {}) {
+    if (typeof document === "undefined") return () => {
+    };
+    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return () => {
+    };
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return () => {
+    };
+    const max = options.max ?? 4;
+    const cleanups = [];
+    document.querySelectorAll(options.selector ?? ".sd-tilt").forEach((card) => {
+      const move = (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty("--ry", `${(px * max * 2).toFixed(2)}deg`);
+        card.style.setProperty("--rx", `${(-py * max * 2).toFixed(2)}deg`);
+      };
+      const leave = () => {
+        card.style.removeProperty("--rx");
+        card.style.removeProperty("--ry");
+      };
+      card.addEventListener("pointermove", move);
+      card.addEventListener("pointerleave", leave);
+      cleanups.push(() => {
+        card.removeEventListener("pointermove", move);
+        card.removeEventListener("pointerleave", leave);
+        leave();
+      });
+    });
+    return () => cleanups.forEach((fn) => fn());
+  }
+
+  // src/js/theme.ts
+  var DEFAULT_STORAGE_KEY = "sd-theme";
+  var themeScript = '(function(){try{var t=localStorage.getItem("sd-theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}document.documentElement.classList.add("js")})();';
+  function currentTheme() {
+    const set = document.documentElement.dataset.theme;
+    if (set === "light" || set === "dark") return set;
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+  function initTheme(options = {}) {
+    const key = options.storageKey ?? DEFAULT_STORAGE_KEY;
+    const buttons = document.querySelectorAll(options.toggleSelector ?? "[data-theme-toggle]");
+    const sync = () => buttons.forEach((b) => b.setAttribute("aria-pressed", String(currentTheme() === "dark")));
+    const set = (scheme) => {
+      document.documentElement.dataset.theme = scheme;
+      try {
+        localStorage.setItem(key, scheme);
+      } catch {
+      }
+      sync();
+    };
+    const toggle = () => set(currentTheme() === "dark" ? "light" : "dark");
+    buttons.forEach((b) => b.addEventListener("click", toggle));
+    sync();
+    return {
+      current: currentTheme,
+      set,
+      toggle,
+      destroy: () => buttons.forEach((b) => b.removeEventListener("click", toggle))
+    };
+  }
+
+  // src/js/canvas.ts
+  var VARS = {
+    bg: "--sd-bg",
+    surface: "--sd-surface",
+    surface2: "--sd-surface-2",
+    ink: "--sd-ink",
+    muted: "--sd-muted",
+    line: "--sd-line",
+    accent: "--sd-accent",
+    accentStrong: "--sd-accent-strong",
+    accentInk: "--sd-accent-ink",
+    accent2: "--sd-accent-2",
+    live: "--sd-live",
+    wip: "--sd-wip",
+    danger: "--sd-danger"
+  };
+  function readPalette() {
+    const cs = getComputedStyle(document.documentElement);
+    const out = {};
+    for (const key of Object.keys(VARS)) {
+      out[key] = cs.getPropertyValue(VARS[key]).trim() || "#888888";
+    }
+    return out;
+  }
+  function alpha(color, a) {
+    let hex = color.replace("#", "");
+    if (hex.length === 3) hex = hex.split("").map((c) => c + c).join("");
+    if (!/^[0-9a-f]{6}$/i.test(hex)) return color;
+    const n = parseInt(hex, 16);
+    return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`;
+  }
+  var prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var mono = (size, weight = 500) => `${weight} ${size}px "JetBrains Mono", ui-monospace, monospace`;
+  var display = (size, weight = 800) => `${weight} ${size}px "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif`;
+  function roundRect(ctx, x, y, w, h, r) {
+    const rr = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + rr, y);
+    ctx.arcTo(x + w, y, x + w, y + h, rr);
+    ctx.arcTo(x + w, y + h, x, y + h, rr);
+    ctx.arcTo(x, y + h, x, y, rr);
+    ctx.arcTo(x, y, x + w, y, rr);
+    ctx.closePath();
+  }
+  function mountCanvas(el, setup) {
+    const canvas = document.createElement("canvas");
+    canvas.style.cssText = "display:block;width:100%;height:100%;touch-action:pan-y;";
+    el.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    const s = {
+      el,
+      canvas,
+      ctx,
+      w: 0,
+      h: 0,
+      dpr: 1,
+      pointer: { x: -9999, y: -9999, inside: false, down: false },
+      colors: readPalette(),
+      reduced: prefersReducedMotion(),
+      time: 0
+    };
+    const hooks = setup(s);
+    let visible = false;
+    let raf = 0;
+    let last = 0;
+    const drawOnce = () => {
+      if (s.w > 0 && s.h > 0) hooks.frame(s, 0);
+    };
+    const tick = (now) => {
+      const dt = last ? Math.min((now - last) / 1e3, 0.05) : 0;
+      last = now;
+      s.time += dt;
+      hooks.frame(s, dt);
+      raf = requestAnimationFrame(tick);
+    };
+    const sync = () => {
+      const shouldRun = visible && !document.hidden && !s.reduced && s.w > 0;
+      if (shouldRun && !raf) {
+        last = 0;
+        raf = requestAnimationFrame(tick);
+      } else if (!shouldRun && raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+    const resize = () => {
+      const w = el.clientWidth;
+      const h = el.clientHeight;
+      if (!w || !h) return;
+      s.w = w;
+      s.h = h;
+      s.dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(w * s.dpr);
+      canvas.height = Math.round(h * s.dpr);
+      ctx.setTransform(s.dpr, 0, 0, s.dpr, 0, 0);
+      hooks.resize?.(s);
+      if (!raf) drawOnce();
+      sync();
+    };
+    const onTheme = () => {
+      s.colors = readPalette();
+      hooks.theme?.(s);
+      if (!raf) drawOnce();
+    };
+    const local = (e) => {
+      const r = canvas.getBoundingClientRect();
+      s.pointer.x = e.clientX - r.left;
+      s.pointer.y = e.clientY - r.top;
+    };
+    const onDown = (e) => {
+      local(e);
+      s.pointer.down = true;
+      s.pointer.inside = true;
+      hooks.pointerdown?.(s, e);
+      if (!raf) drawOnce();
+    };
+    const onMove = (e) => {
+      local(e);
+      s.pointer.inside = true;
+      hooks.pointermove?.(s, e);
+      if (!raf) drawOnce();
+    };
+    const onUp = (e) => {
+      s.pointer.down = false;
+      hooks.pointerup?.(s, e);
+    };
+    const onLeave = (e) => {
+      s.pointer.inside = false;
+      s.pointer.down = false;
+      s.pointer.x = s.pointer.y = -9999;
+      hooks.pointerup?.(s, e);
+      if (!raf) drawOnce();
+    };
+    canvas.addEventListener("pointerdown", onDown);
+    canvas.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    canvas.addEventListener("pointerleave", onLeave);
+    canvas.addEventListener("pointercancel", onLeave);
+    const ro = new ResizeObserver(resize);
+    ro.observe(el);
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = !!entry?.isIntersecting;
+        sync();
+      },
+      { rootMargin: "100px" }
+    );
+    io.observe(el);
+    const mo = new MutationObserver(onTheme);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "data-product"] });
+    const dark = window.matchMedia("(prefers-color-scheme: dark)");
+    dark.addEventListener("change", onTheme);
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onMotion = () => {
+      s.reduced = motion.matches;
+      sync();
+      if (!raf) drawOnce();
+    };
+    motion.addEventListener("change", onMotion);
+    document.addEventListener("visibilitychange", sync);
+    document.fonts?.ready.then(() => {
+      hooks.resize?.(s);
+      if (!raf) drawOnce();
+    });
+    resize();
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      io.disconnect();
+      mo.disconnect();
+      dark.removeEventListener("change", onTheme);
+      motion.removeEventListener("change", onMotion);
+      document.removeEventListener("visibilitychange", sync);
+      window.removeEventListener("pointerup", onUp);
+      hooks.destroy?.();
+      canvas.remove();
+    };
+  }
+  return __toCommonJS(index_exports);
+})();
+</script>
+<script>
+(function () {
+  var root = document.documentElement;
+  var $ = function (s, c) { return (c || document).querySelector(s); };
+  var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
+
+  function paintValues() {
+    var cs = getComputedStyle(root);
+    $$('[data-var]').forEach(function (el) { el.textContent = cs.getPropertyValue(el.dataset.var).trim(); });
+  }
+  function setProduct(p) {
+    root.dataset.product = p;
+    $$('[data-product-btn]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.productBtn === p)); });
+    try { localStorage.setItem('sd-showcase-product', p); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('sd-showcase-product'); } catch (e) {}
+  var qs = new URLSearchParams(location.search).get('product');
+  setProduct(qs || saved || 'portfolio');
+  $$('[data-product-btn]').forEach(function (b) { b.addEventListener('click', function () { setProduct(b.dataset.productBtn); }); });
+
+  SdDesign.initTheme();
+  new MutationObserver(paintValues).observe(root, { attributes: true, attributeFilter: ['data-theme', 'data-product'] });
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', paintValues);
+  paintValues();
+  SdDesign.initReveal();
+  SdDesign.initTilt();
+
+  $$('.chip').forEach(function (c) { c.addEventListener('click', function () { c.setAttribute('aria-pressed', String(c.getAttribute('aria-pressed') !== 'true')); }); });
+
+  var toast = $('#toast'), tt;
+  $('#toast-btn').addEventListener('click', function () {
+    toast.classList.add('is-visible');
+    clearTimeout(tt);
+    tt = setTimeout(function () { toast.classList.remove('is-visible'); }, 2600);
+  });
+
+  $('#reveal-btn').addEventListener('click', function () {
+    var items = $$('#reveal-demo > div');
+    items.forEach(function (i) { i.classList.remove('is-visible'); });
+    requestAnimationFrame(function () { requestAnimationFrame(function () { items.forEach(function (i) { i.classList.add('is-visible'); }); }); });
+  });
+
+  var ball = $('#spring-ball');
+  $('#spring-btn').addEventListener('click', function () {
+    var track = ball.parentElement;
+    ball.style.setProperty('--dx', Math.max(0, track.clientWidth - ball.offsetWidth) + 'px');
+    ball.classList.toggle('on');
+  });
+
+  SdDesign.mountCanvas($('#canvas-demo'), function () {
+    var a = SdDesign;
+    return {
+      frame: function (s) {
+        var c = s.ctx, p = s.colors;
+        c.clearRect(0, 0, s.w, s.h);
+        c.strokeStyle = a.alpha(p.line, 1);
+        c.lineWidth = 1;
+        c.beginPath(); c.moveTo(0, s.h / 2); c.lineTo(s.w, s.h / 2); c.stroke();
+        var cols = [p.accent, p.accent2, p.accentStrong, p.live, p.wip];
+        for (var i = 0; i < cols.length; i++) {
+          var t = s.time * (0.6 + i * 0.25) + i * 1.3;
+          var x = s.w * (0.12 + 0.76 * (i / (cols.length - 1)));
+          var y = s.h / 2 + Math.sin(t) * (s.h * 0.3);
+          var near = s.pointer.inside ? Math.max(0, 1 - Math.hypot(s.pointer.x - x, s.pointer.y - y) / 80) : 0;
+          c.fillStyle = a.alpha(cols[i], 0.25); c.beginPath(); c.arc(x, y, 18 + near * 10, 0, 7); c.fill();
+          c.fillStyle = cols[i]; c.beginPath(); c.arc(x, y, 9 + near * 4, 0, 7); c.fill();
+        }
+        c.fillStyle = p.muted; c.font = a.mono(11); c.fillText(s.reduced ? 'reduced motion : image fixe' : 'canvas : couleurs lues via --sd-*', 10, s.h - 10);
+      }
+    };
+  });
+})();
+</script>
+</body>
+</html>

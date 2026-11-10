@@ -1,0 +1,25 @@
+/* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
+/* Thème « DailyLingua » : accents uniquement, à combiner avec base.css. */
+
+:root {
+  --sd-accent: #33478c;
+  --sd-accent-strong: #33478c;
+  --sd-accent-ink: #ffffff;
+  --sd-accent-2: #b0502b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sd-accent: #8fa2ff;
+    --sd-accent-strong: #b3c0ff;
+    --sd-accent-ink: #0d1330;
+    --sd-accent-2: #e2825c;
+  }
+}
+
+:root[data-theme="dark"] {
+  --sd-accent: #8fa2ff;
+  --sd-accent-strong: #b3c0ff;
+  --sd-accent-ink: #0d1330;
+  --sd-accent-2: #e2825c;
+}

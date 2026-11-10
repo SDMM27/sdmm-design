@@ -1,0 +1,25 @@
+/* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
+/* Thème « Portfolio » : accents uniquement, à combiner avec base.css. */
+
+:root {
+  --sd-accent: #ff4f1a;
+  --sd-accent-strong: #c2380c;
+  --sd-accent-ink: #ffffff;
+  --sd-accent-2: #2f5bff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sd-accent: #ff6a3d;
+    --sd-accent-strong: #ff8a63;
+    --sd-accent-ink: #120a06;
+    --sd-accent-2: #7d97ff;
+  }
+}
+
+:root[data-theme="dark"] {
+  --sd-accent: #ff6a3d;
+  --sd-accent-strong: #ff8a63;
+  --sd-accent-ink: #120a06;
+  --sd-accent-2: #7d97ff;
+}

@@ -1,0 +1,84 @@
+/* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
+/* Utilitaires d'animation. Les .sd-reveal ne s'activent que sous .js (posé par themeScript / votre propre script). */
+
+/* Apparition au scroll (initReveal) ; --i = rang dans la série pour le décalage. */
+.js .sd-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--sd-dur-slow) ease,
+    transform var(--sd-dur-slow) var(--sd-ease-out);
+  transition-delay: calc(var(--i, 0) * var(--sd-stagger));
+}
+.js .sd-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Tilt 3D des cartes : --rx / --ry posées par initTilt (pointeur fin uniquement). */
+.sd-tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.18s ease-out,
+    box-shadow var(--sd-dur-base) ease,
+    border-color var(--sd-dur-base) ease;
+  will-change: transform;
+}
+
+/* Rebond « spring » au survol / à l'appui. */
+.sd-spring {
+  transition: transform var(--sd-dur-base) var(--sd-ease-spring);
+}
+.sd-spring:hover { transform: scale(1.06); }
+.sd-spring:active { transform: scale(0.96); }
+
+/* Point pulsé (couleur par défaut : wip, surchargeable via --sd-pulse). */
+@keyframes sd-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--sd-pulse, var(--sd-wip)) 60%, transparent); }
+  70% { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.sd-pulse-dot { animation: sd-pulse 1.8s ease-out infinite; }
+
+/* Squelette de chargement. */
+@keyframes sd-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+.sd-shimmer {
+  background: linear-gradient(
+    100deg,
+    var(--sd-surface-2) 30%,
+    color-mix(in srgb, var(--sd-surface) 70%, var(--sd-surface-2)) 50%,
+    var(--sd-surface-2) 70%
+  );
+  background-size: 200% 100%;
+  animation: sd-shimmer 1.6s linear infinite;
+}
+
+/* Toast : ajouter .is-visible pour l'afficher. */
+.sd-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  z-index: 70;
+  max-width: calc(100vw - 2rem);
+  transform: translate(-50%, 1rem);
+  opacity: 0;
+  transition:
+    opacity var(--sd-dur-base) ease,
+    transform var(--sd-dur-base) var(--sd-ease-spring);
+  pointer-events: none;
+}
+.sd-toast.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .sd-reveal { opacity: 1; transform: none; transition: none; }
+  .sd-tilt { transform: none; transition: none; will-change: auto; }
+  .sd-spring:hover, .sd-spring:active { transform: none; }
+  .sd-pulse-dot, .sd-shimmer { animation: none; }
+  .sd-toast { transform: translate(-50%, 0); transition: opacity 0.001ms; }
+}

@@ -1,0 +1,25 @@
+/* Généré par scripts/build.ts depuis src/tokens.ts : ne pas éditer à la main. */
+/* Thème « GeoGame » : accents uniquement, à combiner avec base.css. */
+
+:root {
+  --sd-accent: #14a86b;
+  --sd-accent-strong: #0b7a4c;
+  --sd-accent-ink: #04261a;
+  --sd-accent-2: #7c4dff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sd-accent: #3ddc97;
+    --sd-accent-strong: #5fe6ab;
+    --sd-accent-ink: #04261a;
+    --sd-accent-2: #c792ff;
+  }
+}
+
+:root[data-theme="dark"] {
+  --sd-accent: #3ddc97;
+  --sd-accent-strong: #5fe6ab;
+  --sd-accent-ink: #04261a;
+  --sd-accent-2: #c792ff;
+}
